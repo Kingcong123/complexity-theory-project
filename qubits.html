@@ -53,10 +53,10 @@
         Notice that $a_{0,1} = 1$ and $a_{1,0} = 1$, so the probability of moving to the state $1$ is if we start in the state $0$ is $1$ and the probability of moving to the state $0$ is if we start in the state $1$ is also $1$.
         Similarly, $a_{0,0} = 0$ and $a_{1,1} = 0$, so the probability of moving to the state $0$ is if we start in the state $0$ is $0$ and the probability of moving to the state $1$ is if we start in the state $1$ is also $0$.
 
-        <br>In general, in an $n \times n$ matrix $A$, if $a_{i,j}$ denotes the probability we move to state $i$ if we start in state $j$. 
+        <br>In general, in a $n \times n$ stochastic matrix $A$, $a_{i,j}$ denotes the probability we move to state $i$ if we start in state $j$. 
         <br>Multipling the probability vector by the matrix $A$ gives us the new probability vector after applying the operation:
         $$ \begin{pmatrix} p \\ 1-p \end{pmatrix} \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1-p \\ p \end{pmatrix}.$$
-        We will see that the quantum model of computation possesses many similar elements to this randomized model of computation.
+        We will see that the quantum model of computation possesses many similar traits to this randomized model of computation.
       </p>
     </section>
 
@@ -124,6 +124,7 @@
 
         As mentioned before, the amplitudes $\alpha$ and $\beta$ do not represent probabilities directly. Instead, we can obtain a probability distribution by taking their squared magnitudes. 
         When we measure a qubit, we observe $0$ with probability $|\alpha|^2$ and $1$ with probability $|\beta|^2$. This is known as the <strong>Born rule</strong>. 
+        <br>
         Intuitively, measuring a qubit means observing its state to obtain a classical bit, either $0$ or $1$. We can think of this as taking a peek at the qubit to see what the underlying state actually is, 
         except that the result is probabilistic, and the measurement itself changes the quantum state. In particular, after measuring the qubit, its state becomes $|0\rangle$ or $|1\rangle$.
       </p>
