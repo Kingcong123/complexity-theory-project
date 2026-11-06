@@ -58,7 +58,7 @@
         Notice that $a_{0,1} = 1$ and $a_{1,0} = 1$, so the probability of moving to the state $1$ is if we start in the state $0$ is 1 and the probability of moving to the state $0$ is if we start in the state $1$ is 1.
         Similarly, $a_{0,0} = 0$ and $a_{1,1} = 0$, so the probability of moving to the state $0$ is if we start in the state $0$ is 0 and the probability of moving to the state $1$ is if we start in the state $1$ is 0.
 
-        <br>In general, if $a_{n,m}$ denotes the probability we move to state $m$ if we start in state $n$. 
+        <br>In general, in an $n \times n$ matrix $A$, if $a_{i,j}$ denotes the probability we move to state $i$ if we start in state $j$. 
         <br>Multipling the probability vector by the matrix $A$ gives us the new probability vector after applying the operation:
         $$ \begin{pmatrix} p \\ 1-p \end{pmatrix} \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1-p \\ p \end{pmatrix}.$$
         We will see that the quantum model of computation possesses many similar elements to this randomized model of computation.
@@ -69,7 +69,12 @@
       <h2>Dirac notation</h2>
       <!-- WRITE HERE -->
       <p>
-
+        Before we introduce the quantum model of computation, we will introduce a notation for describing states.
+        <br>We will use the Dirac notation to describe these states, invented by Paul Dirac. This notation will allow us to describe column vectors in a compact and elegant way.
+        We call these objects "kets" and denote them with a vertical bar followed by the name of the state. For example, we can write the state $$0 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \text{ \quad as \quad } |0\rangle$$ and the state $$1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \text{ \quad as \quad } |1\rangle$$.
+        
+        Then, we can write any vector in $\<mathbb>R</mathbb>^2$ as a linear combination of $|0\rangle$ and $|1\rangle$. For example, 
+        $$ \begin{pmatrix} \frac{\sqrt{2}}{2} \\ \frac{\sqrt{2}}{2} \end{pmatrix} = \frac{\sqrt{2}}{2} |0\rangle + \frac{\sqrt{2}}{2} |1\rangle.$$
       </p>
     </section>
 
