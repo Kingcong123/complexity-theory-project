@@ -48,7 +48,21 @@
       <h2>A Random Motivation</h2>
       <!-- WRITE HERE -->
       <p>
+        We will start by looking a model of computation that is more familiar: randomized computation. Take some randomized algorithm and suppose
+        that at any point in the algorithm, the device we are using to run the algorithm can be in one of $n$ possible states. For simplicity, we will take $n=2$ and the states will be $0$ and $1$.
+        If we don't know the state of the device, we can instead describe what we know about the state: that it is either $0$ or $1$ with some probability.
+        For example, if we know that the device is in the state $0$ with probability $p$ and in the state $1$ with probability $1-p$, we can write this as a probability vector in $\<mathbb>R</mathbb>
+        $$ \begin{pmatrix} p \\ 1-p \end{pmatrix}.$$
+        We can also write operations from our current state using matrices. For example, take the matrix $A = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$. This matrix represents the NOT gate, which flips the state of the device.
+        Notice that $a_{0,1} = 1$ and $a_{1,0} = 1$, so the probability of moving to the state $1$ is if we start in the state $0$ is 1 and the probability of moving to the state $0$ is if we start in the state $1$ is 1.
+        Similarly, $a_{0,0} = 0$ and $a_{1,1} = 0$, so the probability of moving to the state $0$ is if we start in the state $0$ is 0 and the probability of moving to the state $1$ is if we start in the state $1$ is 0.
 
+        In general, if $a_{n,m}$ denotes the probability we move to state $m$ if we start in state $n$. 
+        Multipling the probability vector by the matrix $A$ gives us the new probability vector after applying the operation:
+        $$ \begin{pmatrix} p \\ 1-p \end{pmatrix} \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1-p \\ p \end{pmatrix}.$$
+      </p>
+      <p>
+        We will see that the quantum model of computation possesses many similar elements to this randomized model of computation.
       </p>
     </section>
 
@@ -80,7 +94,7 @@
       <h2>Tensor products and Entanglement</h2>
       <!-- WRITE HERE -->
       <p>
-        
+
       </p>
     </section>
   </main>
