@@ -65,12 +65,12 @@
       <p>
         Before we introduce the quantum model of computation, we will introduce a notation for describing states.
         <br>We will use the Dirac notation to describe these states, invented by Paul Dirac. This notation will allow us to describe column vectors in a compact and elegant way.
-        We call these objects "kets" and denote them with a vertical bar followed by the name of the state. For example, we can write the state $$0 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{ as} \quad |0\rangle$$ and the state $$1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \quad \text{ as} \quad |1\rangle$$.
+        We call these objects "kets" and denote them with a vertical bar followed by the name of the state. For example, we can write the state $$0 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{ as} \quad |0\rangle$$ and the state $$1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \quad \text{ as} \quad |1\rangle.$$
         
         Then, we can write any vector in $\mathbb{R}^2$ as a linear combination of $|0\rangle$ and $|1\rangle$. For example, 
         $$ \begin{pmatrix} \frac{\sqrt{2}}{2} \\ \frac{\sqrt{2}}{2} \end{pmatrix} = \frac{\sqrt{2}}{2} |0\rangle + \frac{\sqrt{2}}{2} |1\rangle.$$
 
-        We can extend this notation to represent bit strings of arbitrary length. For example, consider all possible bit strings of length two: (00, 01, 10, 11). We can associate each of these bit strings with a standard basis vector in (\mathbb{R}^4):
+        We can extend this notation to represent bit strings of arbitrary length. For example, consider all possible bit strings of length two: (00, 01, 10, 11). We can associate each of these bit strings with a standard basis vector in $\mathbb{R}^4$:
 
         $$
         |00\rangle=\begin{pmatrix}1 \\ 0 \\ 0 \\ 0 \end{pmatrix},
@@ -82,7 +82,7 @@
         |11\rangle=\begin{pmatrix}0 \\ 0 \\ 0 \\ 1 \end{pmatrix}.
         $$
 
-        More generally, for any bit string $x\in{0,1}^n$, we define $|x\rangle$ to be the standard basis vector in $\mathbb{R}^{2^n}$ whose only nonzero entry is a $1$ in the position corresponding to $x$, where the bit strings are ordered lexicographically.
+        More generally, for any bit string $x\in\{0,1\}^n$, we define $|x\rangle$ to be the standard basis vector in $\mathbb{R}^{2^n}$ whose only nonzero entry is a $1$ in the position corresponding to $x$, where the bit strings are ordered lexicographically.
 
         For example, since $101$ is the sixth bit string of length three in lexicographic order, we have
 
@@ -107,10 +107,10 @@
       <h2><strong>Quantum Bits</strong></h2>
       <p>
         A quantum bit, or qubit, is the quantum analogue of a classical bit. Again, suppose we have some set of possible states, $Q$.
-        Assume for sake of simplicity that $Q = \{0,1\}$. However, we no longer represent the states as a probability vector in $\mathbb{R}^2$. 
-        We maintain our representation of the states as a column vector, but we call our state a <strong>superposition</strong> of the states in $Q$.
+        Assume for sake of simplicity that $Q = \{0,1\}$. We maintain our representation of the states as a column vector. However, we no longer represent our states as a probability vector in $\mathbb{R}^2$. 
+        Instead, we call our state a <strong>superposition</strong> of the states in $Q$.
         For example, $$\begin{pmatrix} \frac{\sqrt{2}}{2} \\ \frac{\sqrt{2}}{2} \end{pmatrix}, \begin{pmatrix} 0 \\ -1 \end{pmatrix}, \begin{pmatrix} \frac{-i}{2}\\ \frac{\sqrt{3}}{2} \end{pmatrix}$$ are all valid superpositions of the states in $Q$.
-        <br> Notice that we no longer require the elements of the vector to be nonnegative, real, or sum to 1. Instead, we require that the Euclidean norm of the vector equal 1:
+        <br> Notice that we no longer require the elements of the vector to be nonnegative, real, or sum to 1. Instead, we require that each of these entries are complex numbers and the Euclidean norm of the vector equals 1:
         $$||\vec{v}|| = \sqrt{|v_1|^2 + |v_2|^2 + \cdots + |v_n|^2} = 1.$$
         Because of this change, we now refer to these elements as <strong>amplitudes</strong> instead of probabilities.
 
