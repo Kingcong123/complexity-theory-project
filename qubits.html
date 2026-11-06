@@ -36,19 +36,13 @@
   </aside>
 
   <main class="main">
-    <h1>Bits and Qubits</h1>
+    <h1>\textbf{Bits and Qubits}</h1>
 
     <section>
-      <p>This page will cover the basic concepts of bits and qubits, and how they are used in quantum computing.
-      We will introduce a rigorous mathematical model for bits and qubits, using randomized states as motivation/basis.
-      We will also cover the concept of superposition, entanglement, and Dirac notation.</p>
-    </section>
-
-    <section>
-      <h2>A Random Motivation</h2>
+      <h2>\textbf{A Random Motivation}</h2>
       <p>
         We will start by looking a model of computation that is more familiar: randomized computation. Take some randomized algorithm and suppose
-        that at any point in the algorithm, the device we are using to run the algorithm can be in one of $n$ possible states. For simplicity, we will take $n=2$ and the states will be $0$ and $1$.
+        that at any point in the algorithm, the device we are using to run the algorithm can be in one of $n$ possible states, which we denote as a set of states $Q$. For simplicity, we will take $n=2$ and the states will be $0$ and $1$, so $Q = \{0,1\}$.
         If we don't know the state of the device, we can instead describe what we know about the state: that it is either $0$ or $1$ with some probability.
         
         <br> For example, if we know that the device is in the state $0$ with probability $p$ and in the state $1$ with probability $1-p$, we can write this as a probability vector in $\mathbb{R}^2$:
@@ -65,7 +59,7 @@
     </section>
 
     <section>
-      <h2>Dirac notation</h2>
+      <h2>\textbf{Dirac notation}</h2>
       <p>
         Before we introduce the quantum model of computation, we will introduce a notation for describing states.
         <br>We will use the Dirac notation to describe these states, invented by Paul Dirac. This notation will allow us to describe column vectors in a compact and elegant way.
@@ -108,22 +102,38 @@
     </section>
 
     <section>
-      <h2>Quantum Bits</h2>
+      <h2>\textbf{Quantum Bits}</h2>
+      <p>
+        A quantum bit, or qubit, is the quantum analogue of a classical bit. Again, suppose we have some set of possible states, $Q$.
+        Assume for sake of simplicity that $Q = \{0,1\}$. However, we no longer represent the states as a probability vector in $\mathbb{R}^2$. 
+        We maintain our representation of the states as a column vector, but we call our state a \textbf{superposition} of the states in $Q$.
+        For example, $$\begin{pmatrix} \frac{\sqrt{2}}{2} \\ \frac{\sqrt{2}}{2} \end{pmatrix}, \begin{pmatrix} 0 \\ -1 \end{pmatrix}, \begin{pmatrix} \frac{-i}{2}\\ \frac{\sqrt{3}}{2} \end{pmatrix}$$ are all valid superpositions of the states in $Q$.
+        <br> Notice that we no longer require the elements of the vector to be nonnegative, real, or sum to 1. Instead, we require that the Euclidean norm of the vector equal 1:
+        $$||\vec{v}|| = \sqrt{|v_1|^2 + |v_2|^2 + \cdots + |v_n|^2} = 1.$$
+        Because of this change, we now refer to these elements as \textbf{amplitudes} instead of probabilities.
+
+        More formally, we represent a qubit as a unit vector in (\mathbb{C}^2). Using Dirac notation, we can write any qubit state as
+
+        $$
+        |\psi\rangle=\alpha|0\rangle+\beta|1\rangle
+        $$
+
+        where $\alpha,\beta\in\mathbb{C}$ and $|\alpha|^2+|\beta|^2=1$.
+
+        As mentioned before, the amplitudes $\alpha$ and $\beta$ do not represent probabilities directly. Instead, we can obtain a probability distribution by taking their squared magnitudes. 
+        When we measure a qubit, we observe $0$ with probability $|\alpha|^2$ and $1$ with probability $|\beta|^2$. This is known as the \textbf{Born rule}. 
+      </p>
+    </section>
+
+    <section>
+      <h2>\textbf{Multiple qubits}</h2>
       <p>
 
       </p>
     </section>
 
     <section>
-      <h2>Multiple qubits</h2>
-      <p>
-
-      </p>
-    </section>
-
-    <section>
-      <h2>Tensor products and Entanglement</h2>
-      <!-- WRITE HERE -->
+      <h2>\textbf{Tensor products and Entanglement}</h2>
       <p>
 
       </p>
