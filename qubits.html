@@ -53,9 +53,9 @@
         
         <br> For example, if we know that the device is in the state $0$ with probability $p$ and in the state $1$ with probability $1-p$, we can write this as a probability vector in $\mathbb{R}^2$:
         $$ \begin{pmatrix} p \\ 1-p \end{pmatrix}.$$
-        We can also write operations from our current state using matrices. For example, take the matrix $$ = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.$$ This matrix represents the NOT gate, which flips the state of the device.
-        Notice that $a_{0,1} = 1$ and $a_{1,0} = 1$, so the probability of moving to the state $1$ is if we start in the state $0$ is 1 and the probability of moving to the state $0$ is if we start in the state $1$ is 1.
-        Similarly, $a_{0,0} = 0$ and $a_{1,1} = 0$, so the probability of moving to the state $0$ is if we start in the state $0$ is 0 and the probability of moving to the state $1$ is if we start in the state $1$ is 0.
+        We can also write operations from our current state using matrices. For example, take the matrix $$A = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.$$ This matrix represents the NOT gate, which flips the state of the device.
+        Notice that $a_{0,1} = 1$ and $a_{1,0} = 1$, so the probability of moving to the state $1$ is if we start in the state $0$ is $1$ and the probability of moving to the state $0$ is if we start in the state $1$ is also $1$.
+        Similarly, $a_{0,0} = 0$ and $a_{1,1} = 0$, so the probability of moving to the state $0$ is if we start in the state $0$ is $0$ and the probability of moving to the state $1$ is if we start in the state $1$ is also $0$.
 
         <br>In general, in an $n \times n$ matrix $A$, if $a_{i,j}$ denotes the probability we move to state $i$ if we start in state $j$. 
         <br>Multipling the probability vector by the matrix $A$ gives us the new probability vector after applying the operation:
@@ -69,7 +69,7 @@
       <p>
         Before we introduce the quantum model of computation, we will introduce a notation for describing states.
         <br>We will use the Dirac notation to describe these states, invented by Paul Dirac. This notation will allow us to describe column vectors in a compact and elegant way.
-        We call these objects "kets" and denote them with a vertical bar followed by the name of the state. For example, we can write the state $$0 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \text{ \quad as \quad } |0\rangle$$ and the state $$1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \text{ \quad as \quad } |1\rangle$$.
+        We call these objects "kets" and denote them with a vertical bar followed by the name of the state. For example, we can write the state $$0 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{ as} \quad |0\rangle$$ and the state $$1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \quad \text{ as} \quad |1\rangle$$.
         
         Then, we can write any vector in $\mathbb{R}^2$ as a linear combination of $|0\rangle$ and $|1\rangle$. For example, 
         $$ \begin{pmatrix} \frac{\sqrt{2}}{2} \\ \frac{\sqrt{2}}{2} \end{pmatrix} = \frac{\sqrt{2}}{2} |0\rangle + \frac{\sqrt{2}}{2} |1\rangle.$$
@@ -77,13 +77,13 @@
         We can extend this notation to represent bit strings of arbitrary length. For example, consider all possible bit strings of length two: (00, 01, 10, 11). We can associate each of these bit strings with a standard basis vector in (\mathbb{R}^4):
 
         $$
-        |00\rangle=\begin{pmatrix}1\0\0\0\end{pmatrix},
+        |00\rangle=\begin{pmatrix}1 \\ 0 \\ 0 \\ 0 \end{pmatrix},
         \quad
-        |01\rangle=\begin{pmatrix}0\1\0\0\end{pmatrix},
+        |01\rangle=\begin{pmatrix}0 \\ 1 \\ 0 \\ 0 \end{pmatrix},
         \quad
-        |10\rangle=\begin{pmatrix}0\0\1\0\end{pmatrix},
+        |10\rangle=\begin{pmatrix}0 \\ 0 \\ 1 \\ 0 \end{pmatrix},
         \quad
-        |11\rangle=\begin{pmatrix}0\0\0\1\end{pmatrix}.
+        |11\rangle=\begin{pmatrix}0 \\ 0 \\ 0 \\ 1 \end{pmatrix}.
         $$
 
         More generally, for any bit string $x\in{0,1}^n$, we define $|x\rangle$ to be the standard basis vector in $\mathbb{R}^{2^n}$ whose only nonzero entry is a $1$ in the position corresponding to $x$, where the bit strings are ordered lexicographically.
@@ -93,14 +93,14 @@
         $$
         |101\rangle=
         \begin{pmatrix}
-        0\0\0\0\0\1\0\0
+        0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ 0 \\ 0
         \end{pmatrix}.
         $$
 
         Therefore, the set
 
         $$
-        {|x\rangle\in{0,1}^n}
+        \{|x\rangle \in \{0,1\}^n\}
         $$
 
         forms a basis for $\mathbb{R}^{2^n}$. In particular, every vector $$v\in\mathbb{R}^{2^n}$$ can be written as a linear combination of these vectors.
