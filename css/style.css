@@ -119,8 +119,26 @@ body {
   border-bottom: 1px solid #111;
 }
 
+.main h2 {
+  font-size: 1.25rem;
+  font-weight: normal;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.main section + section {
+  margin-top: 0.5rem;
+}
+
 .main p {
   margin-bottom: 1rem;
+}
+
+/* MathJax: keep long formulas from overflowing awkwardly */
+.main mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
 }
 
 @media (max-width: 700px) {
