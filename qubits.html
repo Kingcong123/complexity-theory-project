@@ -49,7 +49,7 @@
         
         <br> For example, if we know that the device is in the state $0$ with probability $p$ and in the state $1$ with probability $1-p$, we can write this as a probability vector in $\mathbb{R}^2$:
         $$ \begin{pmatrix} p \\ 1-p \end{pmatrix}.$$
-        We can also write operations from our current state using matrices. For example, take the matrix $$A = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.$$ This matrix represents the NOT gate, which flips the state of the device.
+        We can also write operations from our current state using (left) stochastic matrices, matrices whose entries are nonnegative and columns sum to 1. For example, take the matrix $$A = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.$$ This matrix represents the NOT gate, which flips the state of the device.
         Notice that $a_{0,1} = 1$ and $a_{1,0} = 1$, so the probability of moving to the state $1$ is if we start in the state $0$ is $1$ and the probability of moving to the state $0$ is if we start in the state $1$ is also $1$.
         Similarly, $a_{0,0} = 0$ and $a_{1,1} = 0$, so the probability of moving to the state $0$ is if we start in the state $0$ is $0$ and the probability of moving to the state $1$ is if we start in the state $1$ is also $0$.
 
@@ -124,13 +124,47 @@
 
         As mentioned before, the amplitudes $\alpha$ and $\beta$ do not represent probabilities directly. Instead, we can obtain a probability distribution by taking their squared magnitudes. 
         When we measure a qubit, we observe $0$ with probability $|\alpha|^2$ and $1$ with probability $|\beta|^2$. This is known as the <strong>Born rule</strong>. 
+        Intuitively, measuring a qubit means observing its state to obtain a classical bit, either $0$ or $1$. We can think of this as taking a peek at the qubit to see what the underlying state actually is, 
+        except that the result is probabilistic, and the measurement itself changes the quantum state. In particular, after measuring the qubit, its state becomes $|0\rangle$ or $|1\rangle$.
       </p>
     </section>
 
     <section>
       <h2><strong>Multiple qubits</strong></h2>
       <p>
+        Just as we can represent a single qubit as a unit vector in $\mathbb{C}^2$, we can extend this representation to multiple qubits.
+        For example, consider a system of two qubits. Recall that we can represent the four possible bit strings $(00,01,10,11)$ as the standard basis vectors in $\mathbb{R}^4$. Similarly, we can represent the state of two qubits as a unit vector in $\mathbb{C}^4$.
 
+        Using Dirac notation, we can write any two-qubit state as
+
+        $$
+        |\psi\rangle=\alpha_{00}|00\rangle+\alpha_{01}|01\rangle+\alpha_{10}|10\rangle+\alpha_{11}|11\rangle,
+        $$
+
+        where each $$\alpha_{x}\in\mathbb{C}$$ and
+
+        $$
+        |\alpha_{00}|^2+|\alpha_{01}|^2+|\alpha_{10}|^2+|\alpha_{11}|^2=1.
+        $$
+
+        Once again, these coefficients represent amplitudes rather than probabilities. More generally, a system of $n$ qubits is represented by a unit vector in $\mathbb{C}^{2^n}$. Using Dirac notation, we can write any such state as
+
+        $$
+        |\psi\rangle=\sum_{x\in \{0,1\}^n}\alpha_x|x\rangle,$$
+
+        where $\alpha_x\in\mathbb{C}$ for every $x\in \{0,1\}^n$, and
+
+        $$
+        \sum_{x\in \{0,1\}^n}|\alpha_x|^2=1.
+        $$
+
+        When we measure all $n$ qubits, the probability of observing a particular bit string $x \in \{0,1\}^n$ is
+
+        $$
+        \Pr(x)=|\alpha_x|^2.
+        $$
+
+        Thus, while a single qubit is described by two complex amplitudes, a system of $n$ qubits is described by $2^n$ complex amplitudes.
       </p>
     </section>
 
