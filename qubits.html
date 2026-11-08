@@ -227,7 +227,7 @@
         Notice that this produces a vector in $\mathbb{C}^4$, as desired.
         <br> To see that the outcome is a valid quantum state, we can check that the Euclidean norm of the vector is 1:
 
-        $$|alpha_0 \beta_0|^2 + |alpha_0 \beta_1|^2 + |alpha_1 \beta_0|^2 + |alpha_1 \beta_1|^2 = (|\alpha_0|^2 + |\alpha_1|^2)(|\beta_0|^2 + |\beta_1|^2) = 1.$$
+        $$|\alpha_0 \beta_0|^2 + |\alpha_0 \beta_1|^2 + |\alpha_1 \beta_0|^2 + |\alpha_1 \beta_1|^2 = (|\alpha_0|^2 + |\alpha_1|^2)(|\beta_0|^2 + |\beta_1|^2) = 1.$$
         
         <br> More generally, if we take two vectors $|x\rangle\in\mathbb{C}^m$ and $|y\rangle\in\mathbb{C}^n$, their tensor product is a vector in $\mathbb{C}^{mn}$.
 
@@ -346,13 +346,13 @@
 
         We call a pure quantum state <strong> entangled </strong> if it cannot be expressed as a tensor product of states.
 
-        Take the two-qubit state
+        Take the two qubit state
 
         $$
         |\psi\rangle=\frac{|00\rangle+|11\rangle}{\sqrt2}.
         $$
 
-        This state is entangled because there do not exist two single-qubit states $|x\rangle$ and $|y\rangle$ such that
+        This state is entangled because there do not exist two single qubit states $|x\rangle$ and $|y\rangle$ such that
 
         $$
         |\psi\rangle=|x\rangle\otimes|y\rangle.
@@ -393,11 +393,12 @@
         $$
 
         Suppose we measure only the first qubit. There are two possible outcomes:
+        <ul>
+            <li> With probability $1/2$, we observe $0$, and the joint state collapses to $|00\rangle$. </li>
+            <li> With probability $1/2$, we observe $1$, and the joint state collapses to $|11\rangle$. </li>
+        </ul>
 
-        - With probability $1/2$, we observe $0$, and the joint state collapses to $|00\rangle$.
-        - With probability $1/2$, we observe $1$, and the joint state collapses to $|11\rangle$.
-
-        Notice that although we only measured the first qubit, the state of the entire system changed. In particular, after observing the first qubit, we can determine with certainty what we would observe if we measured the second qubit in the computational basis.
+        <br> Notice that although we only measured the first qubit, the state of the entire system changed. In particular, after observing the first qubit, we can determine with certainty what we would observe if we measured the second qubit in the computational basis.
 
         This shows how entangled qubits can represent correlations that cannot be described by assigning independent quantum states to each qubit.
       </p>
