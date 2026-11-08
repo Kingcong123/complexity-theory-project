@@ -150,6 +150,13 @@ body {
   list-style-position: inside;
 }
 
+.main img.circuit-diagram {
+  display: block;
+  max-width: 85%;
+  height: auto;
+  margin: 1rem 0;
+}
+
 /* MathJax: keep long formulas from overflowing awkwardly */
 .main mjx-container {
   overflow-x: auto;

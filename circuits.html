@@ -45,6 +45,9 @@
   </aside>
 
   <main class="main">
+    
+    <h1>Quantum Circuits</h1>
+
     <section>
       The last page covered the basics of quantum computing, including bits and qubits.
       This page will cover the concept of quantum circuits, which are used to represent quantum algorithms.
@@ -52,7 +55,6 @@
       Then, we will cover unitary transformations and quantum gates, which are used to represent quantum operations.
       Finally, we will cover quantum circuits, which are used to represent quantum algorithms.
     </section>
-    <h1>Quantum Circuits</h1>
 
     <section>
       <h2>Classical reversible gates</h2>
@@ -66,16 +68,26 @@
         
         The NOT gate is an example of a reversible gate. We can see that this gate is bijective: NOT($0$) = $1$ and NOT($1$) = $0$.
 
-        <br> Next, we will define a crucial reversible gate: The <strong>CNOT (controlled-NOT) gate</strong>.It is defined as follows:
+        <br> Next, we will define a crucial reversible gate: The <strong>CNOT (controlled-NOT) gate</strong>. It is defined as follows:
         $$CNOT(a,b) = (a, a \oplus b)$$ where $\oplus$ is the XOR operation. One can check that this gate is in fact bijective.
         We call the first bit the <strong> control bit </strong> and the second bit the <strong> target bit </strong>. The target bit is flipped only when the first bit is a $1$.
 
         <br> We can represent the CNOT gate as the following diagram: 
         <img src="images/cnot.png" alt="CNOT gate" class="circuit-diagram">
 
-        <br> We will come to see later that quantum computation is built on top of reversible gates, and the CNOT gate is essential in this regard.
+        <br> Fundamentally, quantum computation is built on top of reversible operations, with the CNOT gate being an important building block. 
+        In particular, the laws of quantum mechanics necessitates that operations done to a quantum system to be reversible. 
+        Intuitively, this means that a quantum system cannot destroy any information about its previous state as it changes. 
+        We will see in the next section that the evolution of a quantum system is described by unitary transformations, which are always invertible. 
+        Note that this requirement only applies to quantum gates, but not to operations like measurements which can cause states to collapse.
 
+      <br> One might wonder whether restricting ourselves to reversible operations limits our computational power. It turns out that this is not the case!
+      Take some boolear function $f: \{0,1\}^n \to \{0,1\}^m$. This function can be simulated using a reversible function by introducing additional bits. 
+      Consider the function:
 
+      $$(x,y) \mapsto (x,y \oplus f(x)),$$
+
+      where $x \in \{0,1\}^n$, $y \in \{0,1\}^m$. We can see that This function is reversible because applying it twice results in the original input. Now, if we set $y = 0^m$, we get the output $(x,f(x))$. 
       </p>
     </section>
 
