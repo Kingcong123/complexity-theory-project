@@ -24,7 +24,7 @@
       <span></span>
       <span></span>
     </button>
-    <span class="topbar-title">Quantum Computing</span>
+    <span class="topbar-title"> <strong>Quantum Computing</strong></span>
   </header>
 
   <aside class="sidebar">
@@ -39,6 +39,12 @@
         <a href="qubits.html#tensor-products-entanglement">Tensor products and Entanglement</a>
       </div>
       <a href="circuits.html" class="active">Quantum Circuits</a>
+      <div class="subnav">
+        <a href="#classical-reversible-gates">Classical reversible gates</a>
+        <a href="#unitary-transformations-quantum-gates">Unitary transformations and quantum gates</a>
+        <a href="#quantum-circuits">Quantum circuits</a>
+        <a href="#quantum-interference">Quantum interference</a>
+      </div>
       <a href="complexity.html">Complexity Classes &amp; SCT</a>
       <a href="grover.html">Grover's Algorithm</a>
     </nav>
@@ -46,7 +52,7 @@
 
   <main class="main">
     
-    <h1>Quantum Circuits</h1>
+    <h1><strong>Quantum Circuits</strong></h1>
 
     <section>
       The last page covered the basics of quantum computing, including bits and qubits.
@@ -57,7 +63,7 @@
     </section>
 
     <section>
-      <h2>Classical reversible gates</h2>
+      <h2 id="classical-reversible-gates"><strong>Classical reversible gates</strong></h2>
       <p>
         Lets start with something we are already familiar with: Boolean circuits. These circuits are often used to model 
         classical computation. They are composed of boolean gates, notably the AND, OR, and NOT gates, which are used to perform boolean operations on bits. 
@@ -76,7 +82,7 @@
         <img src="images/cnot.png" alt="CNOT gate" class="circuit-diagram">
 
         <br> Fundamentally, quantum computation is built on top of reversible operations, with the CNOT gate being an important building block. 
-        In particular, the laws of quantum mechanics necessitates that operations done to a quantum system to be reversible. 
+        Specifically, the laws of quantum mechanics necessitates that operations done to a quantum system are reversible. 
         Intuitively, this means that a quantum system cannot destroy any information about its previous state as it changes. 
         We will see in the next section that operations done on a quantum system are described by unitary transformations, which are always invertible. 
         Note that this requirement only applies to quantum gates, but not to operations like measurements which can cause states to collapse.
@@ -92,21 +98,21 @@
     </section>
 
     <section>
-      <h2>Unitary transformations and quantum gates</h2>
+      <h2 id="unitary-transformations-quantum-gates"><strong>Unitary transformations and quantum gates</strong></h2>
       <p>
 
       </p>
     </section>
 
     <section>
-      <h2>Quantum circuits</h2>
+      <h2 id="quantum-circuits"><strong>Quantum circuits</strong></h2>
       <p>
 
       </p>
     </section>
 
     <section>
-      <h2>Quantum interference</h2>
+      <h2 id="quantum-interference"><strong>Quantum interference</strong></h2>
       <p>
 
       </p>
