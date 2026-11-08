@@ -33,17 +33,17 @@
       <a href="qubits.html">Bits and Qubits</a>
       <div class="subnav">
         <a href="qubits.html#random-motivation">A Random Motivation</a>
-        <a href="qubits.html#dirac-notation">Dirac notation</a>
+        <a href="qubits.html#dirac-notation">Dirac Notation</a>
         <a href="qubits.html#quantum-bits">Quantum Bits</a>
-        <a href="qubits.html#multiple-qubits">Multiple qubits</a>
-        <a href="qubits.html#tensor-products-entanglement">Tensor products and Entanglement</a>
+        <a href="qubits.html#multiple-qubits">Multiple Qubits</a>
+        <a href="qubits.html#tensor-products-entanglement">Tensor Products and Entanglement</a>
       </div>
       <a href="circuits.html" class="active">Quantum Circuits</a>
       <div class="subnav">
-        <a href="#classical-reversible-gates">Classical reversible gates</a>
-        <a href="#unitary-transformations-quantum-gates">Unitary transformations and quantum gates</a>
-        <a href="#quantum-circuits">Quantum circuits</a>
-        <a href="#quantum-interference">Quantum interference</a>
+        <a href="#classical-reversible-gates">Classical Reversible Gates</a>
+        <a href="#unitary-transformations-quantum-gates">Unitary Transformations and Quantum Gates</a>
+        <a href="#quantum-circuits">Quantum Circuits</a>
+        <a href="#quantum-interference">Quantum Interference</a>
       </div>
       <a href="complexity.html">Complexity Classes &amp; SCT</a>
       <a href="grover.html">Grover's Algorithm</a>
@@ -63,7 +63,7 @@
     </section>
 
     <section>
-      <h2 id="classical-reversible-gates"><strong>Classical reversible gates</strong></h2>
+      <h2 id="classical-reversible-gates"><strong>Classical Reversible Gates</strong></h2>
       <p>
         Lets start with something we are already familiar with: Boolean circuits. These circuits are often used to model 
         classical computation. They are composed of boolean gates, notably the AND, OR, and NOT gates, which are used to perform boolean operations on bits. 
@@ -75,7 +75,7 @@
         The NOT gate is an example of a reversible gate. We can see that this gate is bijective: NOT($0$) = $1$ and NOT($1$) = $0$.
 
         <br> Next, we will define a crucial reversible gate: The <strong>CNOT (controlled-NOT) gate</strong>. It is defined as follows:
-        $$CNOT(a,b) = (a, a \oplus b)$$ where $\oplus$ is the XOR operation. One can check that this gate is in fact bijective.
+        $$mathrm{CNOT}(a,b) = (a, a \oplus b)$$ where $\oplus$ is the XOR operation. One can check that this gate is in fact bijective.
         We call the first bit the <strong> control bit </strong> and the second bit the <strong> target bit </strong>. The target bit is flipped only when the first bit is a $1$.
 
         <br> We can represent the CNOT gate as the following diagram: 
@@ -98,21 +98,122 @@
     </section>
 
     <section>
-      <h2 id="unitary-transformations-quantum-gates"><strong>Unitary transformations and quantum gates</strong></h2>
+      <h2 id="unitary-transformations-quantum-gates"><strong>Unitary Transformations and Quantum Gates</strong></h2>
+      <p>
+      In quantum computation, operations can be described by unitary matrices. A linear transformation $U:\mathbb{C}^{2^n}\to\mathbb{C}^{2^n}$ is called unitary if
+
+        $$
+        \boxed{U^\dagger U=UU^\dagger=I,}
+        $$
+
+        where $U^\dagger$ denotes the conjugate transpose of $U$, obtained by transposing $U$ and taking the complex conjugate.
+
+        <br> An important property of unitary transformations is that they preserve inner products, and therefore lengths of vectors. 
+        Therefore, if $|\psi\rangle$ is a unit vector, then $U|\psi\rangle$ is also a unit vector. 
+        This means that applying a unitary transformation to a quantum state results in another quantum state with norm 1.
+
+        <br> Interestingly, every reversible classical gate can be represented as a unitary transformation. A reversible classical gate on $n$ bits can be seen as is a bijection $f: \{0,1\}^n \to \{0,1\}^n$.
+        Since $f$ is a bijection, it permutes the possible input bit strings. For example, the classical NOT gate swaps $0$ and $1$.
+
+        <br> Now, recall that each $n$-bit string $x$ corresponds to a computational basis state $|x\rangle$ in $\mathbb{C}^{2^n}$. We can represent a reversible classical gate $f$ by defining a unitary transformation $U_f$ such that
+        $$
+        U_f|x\rangle=|f(x)\rangle.
+        $$
+
+        <br> $U_f$ performs exactly the same operation as $f$, but on computational basis vectors rather than bit strings. For example, consider the CNOT gate from the previous section. 
+        We can represent it as the following unitary transformation:
+        $$
+        \mathrm{CNOT}=
+        \begin{pmatrix}
+        1&0&0&0\
+        0&1&0&0\
+        0&0&0&1\
+        0&0&1&0
+        \end{pmatrix}.
+        $$
+
+        Notice that each column of this matrix is a distinct computational basis vector. In fact, the columns are precisely the outputs of $\mathrm{CNOT}$ on the basis states $|00\rangle,|01\rangle,|10\rangle,|11\rangle$, respectively.
+
+        <br> Matrices of this form are called permutation matrices. Because their columns form an orthonormal basis, permutation matrices are always unitary.
+        Hence, every reversible classical gate can be represented by a unitary transformation. 
+        However, quantum gates are more powerful: instead of permuting computational basis states, they can transform them into superpositions.
+
+        <h3><strong>The Hadamard Gate</strong></h3>
+
+        One of the fundamental quantum gates is the <strong>Hadamard gate</strong>, denoted by $H$. It is a single-qubit gate represented by the matrix
+
+        $$
+        H=\frac{1}{\sqrt2}
+        \begin{pmatrix}
+        1&1\
+        1&-1
+        \end{pmatrix}.
+        $$
+
+        Its action on the computational basis states is
+
+        $$
+        \begin{aligned}
+        H|0\rangle&=\frac{|0\rangle+|1\rangle}{\sqrt2},\[4pt]
+        H|1\rangle&=\frac{|0\rangle-|1\rangle}{\sqrt2}.
+        \end{aligned}
+        $$
+
+        Notice that unlike reversible classical gates, the Hadamard gate maps computational basis states to superpositions of multiple basis states.
+        Applying $H$ to $|0\rangle$ produces an equal superposition of $|0\rangle$ and $|1\rangle$. Measuring this resulting state in the computational basis gives either outcome with probability $1/2$.
+
+        <br> The Hadamard gate also has the interesting property that $H^2=I$. Therefore, applying it twice returns any single-qubit state to its original state.
+
+        <h3><strong>The T Gate</strong></h3>
+
+        Another important single-qubit gate is the <strong>T gate</strong>, also known as the $\pi/8$ gate. It is represented by the matrix
+
+        $$
+        T=
+        \begin{pmatrix}
+        1&0\
+        0&e^{i\pi/4}
+        \end{pmatrix}.
+        $$
+
+        Its action on the computational basis states is
+
+        $$
+        \begin{aligned}
+        T|0\rangle&=|0\rangle,\
+        T|1\rangle&=e^{i\pi/4}|1\rangle.
+        \end{aligned}
+        $$
+
+        Unlike the Hadamard gate, the T gate does not create a superposition. Instead, it introduces a phase shift (a rotation of the qubit in the complex unit circle) while preserving the magnitude of the amplitude.
+
+        $$
+        |\psi\rangle=\frac{|0\rangle+|1\rangle}{\sqrt2}.
+        $$
+
+        We obtain the following:
+        $$
+        T|\psi\rangle=
+        \frac{|0\rangle+e^{i\pi/4}|1\rangle}{\sqrt2}.
+        $$
+
+        Notice that the probabilities of measuring $|0\rangle$ and $|1\rangle$ remain $1/2$. However, the relative phase or angle between their amplitudes has changed.
+        Although this phase difference does not immediately affect measurement probabilities in the computational basis, it can affect the outcome of following quantum operations. 
+        This will become important when we discuss quantum interference.
+
+        <br> Together, the CNOT, Hadamard, and T gates provide examples of the different operations available in quantum computation: manipulating basis states, creating superpositions, and modifying the relative phases of amplitudes.
+      </p>
+    </section>
+
+    <section>
+      <h2 id="quantum-circuits"><strong>Quantum Circuits</strong></h2>
       <p>
 
       </p>
     </section>
 
     <section>
-      <h2 id="quantum-circuits"><strong>Quantum circuits</strong></h2>
-      <p>
-
-      </p>
-    </section>
-
-    <section>
-      <h2 id="quantum-interference"><strong>Quantum interference</strong></h2>
+      <h2 id="quantum-interference"><strong>Quantum Interference</strong></h2>
       <p>
 
       </p>
