@@ -136,12 +136,11 @@
 
         As mentioned before, the amplitudes $\alpha$ and $\beta$ do not represent probabilities directly. Instead, we can obtain a probability distribution by taking their squared magnitudes. 
         When we measure a qubit, we observe $0$ with probability $|\alpha|^2$ and $1$ with probability $|\beta|^2$. This is known as the <strong>Born rule</strong>. 
-        <br>
-        \\
+        <br><br>
         Intuitively, measuring a qubit means observing its state to obtain a classical bit, either $0$ or $1$. In the case of randomized computation, although we do not know what the state of the device doing the computation is, it is deterministically some state in $Q$. 
         When we observe this randomized state, we observe exactly this deterministic underlying state.
-        \\
-        <br> Qubits differ from randomized computation in this regard. Physics tells us that the superposition that the qubit is in is actually its true state. Measuring the qubit collapses it to a deterministic state, either $|0\rangle$ or $|1\rangle$.
+        <br><br>
+        Qubits differ from randomized computation in this regard. Physics tells us that the superposition that the qubit is in is actually its true state. Measuring the qubit collapses it to a deterministic state, either $|0\rangle$ or $|1\rangle$.
         We can think of this as taking a peek at the qubit to see what the underlying state actually is, except that the result is probabilistic, and the measurement itself changes the quantum state.
       </p>
     </section>
@@ -353,7 +352,7 @@
         $$
 
         We have transformed our original state $|00\rangle$ into a superposition of $|10\rangle$ and $|11\rangle$, each of which will be observed with probability $1/2$.
-        \\
+        <br><br>
         <h3> <strong> Entanglement </strong> </h3>
 
         We have seen how we can combine individual quantum states using tensor products. However, an important distinction between quantum and classical computation is that not every joint quantum state can be written as a tensor product of individual quantum states.
@@ -393,7 +392,7 @@
         $$
 
         Both of these equations cannot all be satisfied at the same time. Therefore, the state cannot be written as the tensor product of two individual qubit states.
-        \\
+        <br><br>
         <h3> <strong> Partial Measurements </strong> </h3>
 
         One interesting consequence of entanglement arises when we measure only part of a quantum system. 
