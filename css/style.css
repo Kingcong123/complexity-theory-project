@@ -144,6 +144,12 @@ body {
   margin-bottom: 1rem;
 }
 
+.main ul {
+  margin: 0.5rem 0 1rem;
+  padding-left: 0;
+  list-style-position: inside;
+}
+
 /* MathJax: keep long formulas from overflowing awkwardly */
 .main mjx-container {
   overflow-x: auto;
