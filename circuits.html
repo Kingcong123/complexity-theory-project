@@ -78,16 +78,16 @@
         <br> Fundamentally, quantum computation is built on top of reversible operations, with the CNOT gate being an important building block. 
         In particular, the laws of quantum mechanics necessitates that operations done to a quantum system to be reversible. 
         Intuitively, this means that a quantum system cannot destroy any information about its previous state as it changes. 
-        We will see in the next section that the evolution of a quantum system is described by unitary transformations, which are always invertible. 
+        We will see in the next section that operations done on a quantum system are described by unitary transformations, which are always invertible. 
         Note that this requirement only applies to quantum gates, but not to operations like measurements which can cause states to collapse.
 
-      <br> One might wonder whether restricting ourselves to reversible operations limits our computational power. It turns out that this is not the case!
-      Take some boolear function $f: \{0,1\}^n \to \{0,1\}^m$. This function can be simulated using a reversible function by introducing additional bits. 
-      Consider the function:
+        <br> One might wonder whether restricting ourselves to reversible operations limits our computational power. It turns out that this is not the case!
+        Take some boolean function $f: \{0,1\}^n \to \{0,1\}^m$. This function can be simulated using a reversible function by introducing additional bits. 
+        Consider the function:
 
-      $$(x,y) \mapsto (x,y \oplus f(x)),$$
+        $$(x,y) \mapsto (x,y \oplus f(x)),$$
 
-      where $x \in \{0,1\}^n$, $y \in \{0,1\}^m$. We can see that This function is reversible because applying it twice results in the original input. Now, if we set $y = 0^m$, we get the output $(x,f(x))$. 
+        where $x \in \{0,1\}^n$, $y \in \{0,1\}^m$. We can see that This function is reversible because applying it twice results in the original input. Now, if we set $y = 0^m$, we get the output $(x,f(x))$. 
       </p>
     </section>
 
