@@ -65,7 +65,7 @@
       <p>
         Before we introduce the quantum model of computation, we will introduce a notation for describing states.
         <br>We will use the Dirac notation to describe these states, invented by Paul Dirac. This notation will allow us to describe column vectors in a compact and elegant way.
-        We call these objects "kets" and denote them with a vertical bar followed by the name of the state. For example, we can write the state $$0 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{ as} \quad |0\rangle$$ and the state $$1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \quad \text{ as} \quad |1\rangle.$$
+        We call these objects <strong> kets </strong> and denote them with a vertical bar followed by the name of the state. For example, we can write the state $$0 = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \quad \text{ as} \quad |0\rangle$$ and the state $$1 = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \quad \text{ as} \quad |1\rangle.$$
         
         Then, we can write any vector in $\mathbb{R}^2$ as a linear combination of $|0\rangle$ and $|1\rangle$. For example, 
         $$ \begin{pmatrix} \frac{\sqrt{2}}{2} \\ \frac{\sqrt{2}}{2} \end{pmatrix} = \frac{\sqrt{2}}{2} |0\rangle + \frac{\sqrt{2}}{2} |1\rangle.$$
@@ -99,7 +99,7 @@
         \{|x\rangle \in \{0,1\}^n\}
         $$
 
-        forms a basis for $\mathbb{R}^{2^n}$. In particular, every vector $$v\in\mathbb{R}^{2^n}$$ can be written as a linear combination of these vectors.
+        forms a basis for $\mathbb{R}^{2^n}$. In particular, every vector $$v\in\mathbb{R}^{2^n}$$ can be written as a linear combination of these vectors. Another name we give this basis is the <strong>computational basis</strong>.
       </p>
     </section>
 
@@ -125,8 +125,10 @@
         As mentioned before, the amplitudes $\alpha$ and $\beta$ do not represent probabilities directly. Instead, we can obtain a probability distribution by taking their squared magnitudes. 
         When we measure a qubit, we observe $0$ with probability $|\alpha|^2$ and $1$ with probability $|\beta|^2$. This is known as the <strong>Born rule</strong>. 
         <br>
-        Intuitively, measuring a qubit means observing its state to obtain a classical bit, either $0$ or $1$. We can think of this as taking a peek at the qubit to see what the underlying state actually is, 
-        except that the result is probabilistic, and the measurement itself changes the quantum state. In particular, after measuring the qubit, its state becomes $|0\rangle$ or $|1\rangle$.
+        Intuitively, measuring a qubit means observing its state to obtain a classical bit, either $0$ or $1$. In the case of randomized computation, although we do not know what the state of the device doing the computation is, it is deterministically some state in $Q$. 
+        When we observe this randomized state, we observe exactly this deterministic underlying state.
+        <br> Qubits differ from randomized computation in this regard. Physics tells us that the superposition that the qubit is in is actually its true state. Measuring the qubit collapses it to a deterministic state, either $|0\rangle$ or $|1\rangle$.
+        We can think of this as taking a peek at the qubit to see what the underlying state actually is, except that the result is probabilistic, and the measurement itself changes the quantum state.
       </p>
     </section>
 
@@ -134,7 +136,7 @@
       <h2><strong>Multiple qubits</strong></h2>
       <p>
         Just as we can represent a single qubit as a unit vector in $\mathbb{C}^2$, we can extend this representation to multiple qubits.
-        For example, consider a system of two qubits. Recall that we can represent the four possible bit strings $(00,01,10,11)$ as the standard basis vectors in $\mathbb{R}^4$. Similarly, we can represent the state of two qubits as a unit vector in $\mathbb{C}^4$.
+        For example, consider a system of two qubits. Recall that we can represent the four possible bit strings $(00,01,10,11)$ as the four computational basis states. We can represent the state of two qubits as a unit vector in $\mathbb{C}^4$.
 
         Using Dirac notation, we can write any two-qubit state as
 
@@ -159,19 +161,232 @@
         \sum_{x\in \{0,1\}^n}|\alpha_x|^2=1.
         $$
 
+
         When we measure all $n$ qubits, the probability of observing a particular bit string $x \in \{0,1\}^n$ is
 
         $$
         \Pr(x)=|\alpha_x|^2.
         $$
 
+        Let's take a moment to consider what observing a particular bit string means. When we observe a single qubit, we observe a classical bit, either $0$ or $1$. When we observe a system of $n$ qubits, we observe a bit string of length $n$.
+        Each index of the bit string corresponds to a qubit, and the bit at that position represents the outcome of measuring that qubit.
+
         Thus, while a single qubit is described by two complex amplitudes, a system of $n$ qubits is described by $2^n$ complex amplitudes.
+
+        This can be generaliezd to <\strong> qudits </strong>, which are systems where states are a superposition of $d$ states. 
+        Again, we can write $$| \psi \rangle = \sum_{i=0}^{d-1} \alpha_i | i \rangle$$ where $\alpha_i \in \mathbb{C}$ and $$\sum_{i=0}^{d-1} |\alpha_i|^2 = 1.$$
       </p>
     </section>
 
     <section>
       <h2><strong>Tensor products and Entanglement</strong></h2>
       <p>
+
+        Let's take two qubits $|x\rangle=\alpha_0|0\rangle+\alpha_1|1\rangle$ and $|y\rangle=\beta_0|0\rangle+\beta_1|1\rangle$. We can represent these qubits as unit vectors in $\mathbb{C}^2$.
+
+        How can we represent the state of a system consisting of these two qubits? We have already seen that we can represent the state of a system of $n$ qubits as a unit vector in $\mathbb{C}^{2^n}$, 
+        so we can represent the joint state of these two qubits as a unit vector in $\mathbb{C}^4$.
+
+        To combine these two individual states into a joint state, we use an operation called a <strong> tensor product</strong>, which we denote by $\otimes$.
+
+        In matrix form, the tensor product of these two qubits is
+
+        $$
+        |x\rangle\otimes|y\rangle
+        =
+        \begin{pmatrix}
+        \alpha_0\\
+        \alpha_1
+        \end{pmatrix}
+        \otimes
+        \begin{pmatrix}
+        \beta_0\\
+        \beta_1
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+        \alpha_0\beta_0\\
+        \alpha_0\beta_1\\
+        \alpha_1\beta_0\\
+        \alpha_1\beta_1
+        \end{pmatrix}.
+        $$
+
+        Using Dirac notation, we can write this as
+
+        $$
+        \begin{aligned}
+        |x\rangle\otimes|y\rangle
+        ={}&\alpha_0\beta_0|00\rangle
+        +\alpha_0\beta_1|01\rangle\\
+        &+\alpha_1\beta_0|10\rangle
+        +\alpha_1\beta_1|11\rangle.
+        \end{aligned}
+        $$
+
+        Notice that this produces a vector in $\mathbb{C}^4$, as desired. More generally, if we take two vectors $|x\rangle\in\mathbb{C}^m$ and $|y\rangle\in\mathbb{C}^n$, their tensor product is a vector in $\mathbb{C}^{mn}$.
+
+        We can extend this idea beyond qubits, to qudits.
+
+        Suppose we have two qudits,
+
+        $$
+        |x\rangle=\sum_{i=0}^{m-1}\alpha_i|i\rangle,
+        \qquad
+        |y\rangle=\sum_{j=0}^{n-1}\beta_j|j\rangle.
+        $$
+
+        Their tensor product is
+
+        $$
+        \boxed{
+        |x\rangle\otimes|y\rangle
+        =\sum_{i=0}^{m-1}\sum_{j=0}^{n-1}
+        \alpha_i\beta_j|ij\rangle.
+        }
+        $$
+
+        Thus, the joint state is represented by a unit vector in $\mathbb{C}^{mn}$. We can combine more than two quantum systems by repeatedly applying the tensor product.
+
+        We can also use tensor products to combine operations on these states.
+
+        Suppose we want to apply an operation $A$ to the first qubit and another operation $B$ to the second qubit. We can represent the combined operation using the tensor product of the two matrices.
+
+        More generally, if $A$ is an $m\times m$ matrix and $B$ is an $n\times n$ matrix, we define their tensor product as
+
+        $$
+        A\otimes B=
+        \begin{pmatrix}
+        a_{11}B&a_{12}B&\cdots&a_{1m}B\\
+        a_{21}B&a_{22}B&\cdots&a_{2m}B\\
+        \vdots&\vdots&\ddots&\vdots\\
+        a_{m1}B&a_{m2}B&\cdots&a_{mm}B
+        \end{pmatrix}.
+        $$
+
+        Notice that $A\otimes B$ is an $mn\times mn$ matrix.
+
+        The important property of this operation is that
+
+        $$
+        (A\otimes B)(|x\rangle\otimes|y\rangle)
+        =(A|x\rangle)\otimes(B|y\rangle).
+        $$
+
+        In other words, applying $A\otimes B$ to the joint state is equivalent to applying $A$ and $B$ to their respective quantum states individually.
+
+        Let's consider an example. Suppose we want to apply the NOT gate to the first qubit and the Hadamard gate to the second qubit. These are represented by the matrices
+
+        $$
+        X=\begin{pmatrix}0&1\\1&0\end{pmatrix},
+        \qquad
+        H=\frac1{\sqrt2}
+        \begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+        $$
+
+        The NOT gate switches the states $|0\rangle$ and $|1\rangle$, while the Hadamard gate transforms them into superpositions:
+
+        $$
+        H|0\rangle=\frac{|0\rangle+|1\rangle}{\sqrt2},
+        \qquad
+        H|1\rangle=\frac{|0\rangle-|1\rangle}{\sqrt2}.
+        $$
+
+        We will discuss these gates in more detail on the next page, including what characterizes a valid quantum operation.
+
+        For now, consider the combined operation $X\otimes H$. Using our definition of the tensor product, we obtain
+
+        $$
+        \begin{aligned}
+        X\otimes H
+        &=
+        \begin{pmatrix}
+        0H&1H\\
+        1H&0H
+        \end{pmatrix}\\
+        &=\frac1{\sqrt2}
+        \begin{pmatrix}
+        0&0&1&1\\
+        0&0&1&-1\\
+        1&1&0&0\\
+        1&-1&0&0
+        \end{pmatrix}.
+        \end{aligned}
+        $$
+
+        Suppose our initial state is $|00\rangle$. Applying this operation gives
+
+        $$
+        \begin{aligned}
+        (X\otimes H)|00\rangle
+        &=(X|0\rangle)\otimes(H|0\rangle)\\
+        &=|1\rangle\otimes
+        \left(\frac{|0\rangle+|1\rangle}{\sqrt2}\right)\\
+        &=\frac{|10\rangle+|11\rangle}{\sqrt2}.
+        \end{aligned}
+        $$
+
+        Thus, we have transformed our original state $|00\rangle$ into a superposition of $|10\rangle$ and $|11\rangle$, each of which will be observed with probability $1/2$.
+
+        ### Entanglement
+
+        So far, we have seen how we can combine individual quantum states using tensor products. However, an important distinction between quantum and classical computation is that **not every joint quantum state can be written as a tensor product of individual quantum states**.
+
+        We call a pure quantum state **entangled** if it cannot be expressed as a tensor product of states belonging to its individual subsystems.
+
+        For example, consider the two-qubit state
+
+        $$
+        |\psi\rangle=\frac{|00\rangle+|11\rangle}{\sqrt2}.
+        $$
+
+        This state is entangled because there do not exist two single-qubit states $|x\rangle$ and $|y\rangle$ such that
+
+        $$
+        |\psi\rangle=|x\rangle\otimes|y\rangle.
+        $$
+
+        In particular, if we assume
+
+        $$
+        |x\rangle=\alpha_0|0\rangle+\alpha_1|1\rangle,
+        \qquad
+        |y\rangle=\beta_0|0\rangle+\beta_1|1\rangle,
+        $$
+
+        then we would require
+
+        $$
+        \alpha_0\beta_0=\alpha_1\beta_1=\frac1{\sqrt2},
+        $$
+
+        and
+
+        $$
+        \alpha_0\beta_1=\alpha_1\beta_0=0.
+        $$
+
+        These equations cannot all be satisfied simultaneously. Therefore, the state cannot be written as the tensor product of two individual qubit states.
+
+        ### Partial Measurements
+
+        One interesting consequence of entanglement arises when we measure only part of a quantum system. So far, we have discussed measuring all $n$ qubits to obtain a bit string of length $n$. However, we can also measure only some of the qubits, leaving the others unmeasured. This is known as a **partial measurement**.
+
+        Consider again the entangled state
+
+        $$
+        |\psi\rangle=\frac{|00\rangle+|11\rangle}{\sqrt2}.
+        $$
+
+        Suppose we measure only the first qubit. There are two possible outcomes:
+
+        - With probability $1/2$, we observe $0$, and the joint state collapses to $|00\rangle$.
+        - With probability $1/2$, we observe $1$, and the joint state collapses to $|11\rangle$.
+
+        Notice that although we only measured the first qubit, the state of the entire system changed. In particular, after observing the first qubit, we can determine with certainty what we would observe if we measured the second qubit in the computational basis.
+
+        This illustrates how entangled qubits can exhibit correlations that cannot be described by assigning independent pure quantum states to each qubit.
+
 
       </p>
     </section>
