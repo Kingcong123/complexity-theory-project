@@ -173,7 +173,7 @@
 
         Thus, while a single qubit is described by two complex amplitudes, a system of $n$ qubits is described by $2^n$ complex amplitudes.
 
-        This can be generaliezd to <\strong> qudits </strong>, which are systems where states are a superposition of $d$ states. 
+        <br> This can be generalized to <strong> qudits </strong>, which are systems where states are a superposition of $d$ states. 
         Again, we can write $$| \psi \rangle = \sum_{i=0}^{d-1} \alpha_i | i \rangle$$ where $\alpha_i \in \mathbb{C}$ and $$\sum_{i=0}^{d-1} |\alpha_i|^2 = 1.$$
       </p>
     </section>
@@ -193,7 +193,7 @@
 
         $$
         |x\rangle\otimes|y\rangle
-        =
+        = |xy \rangle = 
         \begin{pmatrix}
         \alpha_0\\
         \alpha_1
@@ -224,7 +224,12 @@
         \end{aligned}
         $$
 
-        Notice that this produces a vector in $\mathbb{C}^4$, as desired. More generally, if we take two vectors $|x\rangle\in\mathbb{C}^m$ and $|y\rangle\in\mathbb{C}^n$, their tensor product is a vector in $\mathbb{C}^{mn}$.
+        Notice that this produces a vector in $\mathbb{C}^4$, as desired.
+        <br> To see that the outcome is a valid quantum state, we can check that the Euclidean norm of the vector is 1:
+
+        $$|alpha_0 \beta_0|^2 + |alpha_0 \beta_1|^2 + |alpha_1 \beta_0|^2 + |alpha_1 \beta_1|^2 = (|\alpha_0|^2 + |\alpha_1|^2)(|\beta_0|^2 + |\beta_1|^2) = 1.$$
+        
+        <br> More generally, if we take two vectors $|x\rangle\in\mathbb{C}^m$ and $|y\rangle\in\mathbb{C}^n$, their tensor product is a vector in $\mathbb{C}^{mn}$.
 
         We can extend this idea beyond qubits, to qudits.
 
@@ -239,16 +244,23 @@
         Their tensor product is
 
         $$
-        \boxed{
         |x\rangle\otimes|y\rangle
         =\sum_{i=0}^{m-1}\sum_{j=0}^{n-1}
         \alpha_i\beta_j|ij\rangle.
-        }
         $$
 
         Thus, the joint state is represented by a unit vector in $\mathbb{C}^{mn}$. We can combine more than two quantum systems by repeatedly applying the tensor product.
 
-        We can also use tensor products to combine operations on these states.
+        The tensor product has some important properties that are worth noting.
+        It is associative:
+        $$(A\otimes B)\otimes C = A\otimes (B\otimes C)$$
+        It is distributive over addition:
+        $$A\otimes (B+C) = A\otimes B + A\otimes C$$
+        It is distributive over scalar multiplication:
+        $$c(A\otimes B) = (cA)\otimes B = A\otimes (cB)$$
+        The tensor product howvever is <strong> not commutative </strong>. For example,
+        $$|01 \rangle = | 0 \rangle \otimes | 1 \rangle \not = | 1 \rangle \otimes | 0 \rangle = |10 \rangle.$$
+        <br> We can also use tensor products to combine operations on these states.
 
         Suppose we want to apply an operation $A$ to the first qubit and another operation $B$ to the second qubit. We can represent the combined operation using the tensor product of the two matrices.
 
@@ -294,7 +306,7 @@
 
         We will discuss these gates in more detail on the next page, including what characterizes a valid quantum operation.
 
-        For now, consider the combined operation $X\otimes H$. Using our definition of the tensor product, we obtain
+        For now, consider the combined operation $X\otimes H$. Using our definition of the tensor product, we get:
 
         $$
         \begin{aligned}
@@ -314,7 +326,7 @@
         \end{aligned}
         $$
 
-        Suppose our initial state is $|00\rangle$. Applying this operation gives
+        Now, suppose our initial state is $|00\rangle$. Applying this operation gives:
 
         $$
         \begin{aligned}
@@ -326,15 +338,15 @@
         \end{aligned}
         $$
 
-        Thus, we have transformed our original state $|00\rangle$ into a superposition of $|10\rangle$ and $|11\rangle$, each of which will be observed with probability $1/2$.
+        We have transformed our original state $|00\rangle$ into a superposition of $|10\rangle$ and $|11\rangle$, each of which will be observed with probability $1/2$.
+        
+        <h3> <strong> Entanglement </strong> </h3>
 
-        ### Entanglement
+        We have seen how we can combine individual quantum states using tensor products. However, an important distinction between quantum and classical computation is that not every joint quantum state can be written as a tensor product of individual quantum states.
 
-        So far, we have seen how we can combine individual quantum states using tensor products. However, an important distinction between quantum and classical computation is that **not every joint quantum state can be written as a tensor product of individual quantum states**.
+        We call a pure quantum state <strong> entangled </strong> if it cannot be expressed as a tensor product of states.
 
-        We call a pure quantum state **entangled** if it cannot be expressed as a tensor product of states belonging to its individual subsystems.
-
-        For example, consider the two-qubit state
+        Take the two-qubit state
 
         $$
         |\psi\rangle=\frac{|00\rangle+|11\rangle}{\sqrt2}.
@@ -354,7 +366,7 @@
         |y\rangle=\beta_0|0\rangle+\beta_1|1\rangle,
         $$
 
-        then we would require
+        then we can see that we need
 
         $$
         \alpha_0\beta_0=\alpha_1\beta_1=\frac1{\sqrt2},
@@ -366,13 +378,15 @@
         \alpha_0\beta_1=\alpha_1\beta_0=0.
         $$
 
-        These equations cannot all be satisfied simultaneously. Therefore, the state cannot be written as the tensor product of two individual qubit states.
+        Both of these equations cannot all be satisfied at the same time. Therefore, the state cannot be written as the tensor product of two individual qubit states.
 
-        ### Partial Measurements
+        <h3> <strong> Partial Measurements </strong> </h3>
 
-        One interesting consequence of entanglement arises when we measure only part of a quantum system. So far, we have discussed measuring all $n$ qubits to obtain a bit string of length $n$. However, we can also measure only some of the qubits, leaving the others unmeasured. This is known as a **partial measurement**.
+        One interesting consequence of entanglement arises when we measure only part of a quantum system. 
+        So far, we have discussed measuring all $n$ qubits to obtain a bit string of length $n$.
+        However, we can also measure only a portion of the qubits, leaving the others. This is called a <strong>partial measurement</strong>.
 
-        Consider again the entangled state
+        Again, take the entangled state
 
         $$
         |\psi\rangle=\frac{|00\rangle+|11\rangle}{\sqrt2}.
@@ -385,9 +399,7 @@
 
         Notice that although we only measured the first qubit, the state of the entire system changed. In particular, after observing the first qubit, we can determine with certainty what we would observe if we measured the second qubit in the computational basis.
 
-        This illustrates how entangled qubits can exhibit correlations that cannot be described by assigning independent pure quantum states to each qubit.
-
-
+        This shows how entangled qubits can represent correlations that cannot be described by assigning independent quantum states to each qubit.
       </p>
     </section>
   </main>
