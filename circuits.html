@@ -73,7 +73,7 @@
         The AND and OR gates, for example, are not reversible. Take our output as $0$. Then, AND($0$,$0$) = $0$ and AND($0$,$1$) = $0$, and there is no way to determine the input from the output
         
         The NOT gate is an example of a reversible gate. We can see that this gate is bijective: NOT($0$) = $1$ and NOT($1$) = $0$.
-
+        <br>
         <br> Next, we will define a crucial reversible gate: The <strong>CNOT (controlled-NOT) gate</strong>. It is defined as follows:
         $$\mathrm{CNOT}(a,b) = (a, a \oplus b)$$ where $\oplus$ is the XOR operation. One can check that this gate is in fact bijective.
         We call the first bit the <strong> control bit </strong> and the second bit the <strong> target bit </strong>. The target bit is flipped only when the first bit is a $1$.
@@ -112,7 +112,7 @@
         Therefore, if $|\psi\rangle$ is a unit vector, then $U|\psi\rangle$ is also a unit vector. 
         This means that applying a unitary transformation to a quantum state results in another quantum state with norm 1.
         <br><br>
-        Interestingly, every reversible classical gate can be represented as a unitary transformation. A reversible classical gate on $n$ bits can be seen as is a bijection $f: \{0,1\}^n \to \{0,1\}^n$.
+        It turns out that every reversible classical gate can be represented as a unitary transformation. A reversible classical gate on $n$ bits can be seen as is a bijection $f: \{0,1\}^n \to \{0,1\}^n$.
         Since $f$ is a bijection, it permutes the possible input bit strings. For example, the classical NOT gate swaps $0$ and $1$.
         <br><br>
         Now, recall that each $n$-bit string $x$ corresponds to a computational basis state $|x\rangle$ in $\mathbb{C}^{2^n}$. We can represent a reversible classical gate $f$ by defining a unitary transformation $U_f$ such that
