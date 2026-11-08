@@ -58,15 +58,15 @@
         We will start by looking a model of computation that is more familiar: randomized computation. Take some randomized algorithm and suppose
         that at any point in the algorithm, the device we are using to run the algorithm can be in one of $n$ possible states, which we denote as a set of states $Q$. For simplicity, we will take $n=2$ and the states will be $0$ and $1$, so $Q = \{0,1\}$.
         If we don't know the state of the device, we can instead describe what we know about the state: that it is either $0$ or $1$ with some probability.
-        
+        <br>
         <br> For example, if we know that the device is in the state $0$ with probability $p$ and in the state $1$ with probability $1-p$, we can write this as a probability vector in $\mathbb{R}^2$:
         $$ \begin{pmatrix} p \\ 1-p \end{pmatrix}.$$
         We can also write operations from our current state using (left) stochastic matrices, matrices whose entries are nonnegative and columns sum to 1. For example, take the matrix $$A = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.$$ This matrix represents the NOT gate, which flips the state of the device.
         Notice that $a_{0,1} = 1$ and $a_{1,0} = 1$, so the probability of moving to the state $1$ is if we start in the state $0$ is $1$ and the probability of moving to the state $0$ is if we start in the state $1$ is also $1$.
         Similarly, $a_{0,0} = 0$ and $a_{1,1} = 0$, so the probability of moving to the state $0$ is if we start in the state $0$ is $0$ and the probability of moving to the state $1$ is if we start in the state $1$ is also $0$.
-
+        <br>
         <br>In general, in a $n \times n$ stochastic matrix $A$, $a_{i,j}$ denotes the probability we move to state $i$ if we start in state $j$. 
-        <br>Multipling the probability vector by the matrix $A$ gives us the new probability vector after applying the operation:
+        Multiplying the probability vector by the matrix $A$ gives us the new probability vector after applying the operation:
         $$ \begin{pmatrix} p \\ 1-p \end{pmatrix} \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1-p \\ p \end{pmatrix}.$$
         We will see that the quantum model of computation possesses many similar traits to this randomized model of computation.
       </p>
