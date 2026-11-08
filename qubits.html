@@ -31,6 +31,13 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="qubits.html" class="active">Bits and Qubits</a>
+      <div class="subnav">
+        <a href="#random-motivation">A Random Motivation</a>
+        <a href="#dirac-notation">Dirac notation</a>
+        <a href="#quantum-bits">Quantum Bits</a>
+        <a href="#multiple-qubits">Multiple qubits</a>
+        <a href="#tensor-products-entanglement">Tensor products and Entanglement</a>
+      </div>
       <a href="circuits.html">Quantum Circuits</a>
       <a href="complexity.html">Complexity Classes &amp; SCT</a>
       <a href="grover.html">Grover's Algorithm</a>
@@ -41,7 +48,7 @@
     <h1><strong>Bits and Qubits</strong></h1>
 
     <section>
-      <h2><strong>A Random Motivation</strong></h2>
+      <h2 id="random-motivation"><strong>A Random Motivation</strong></h2>
       <p>
         We will start by looking a model of computation that is more familiar: randomized computation. Take some randomized algorithm and suppose
         that at any point in the algorithm, the device we are using to run the algorithm can be in one of $n$ possible states, which we denote as a set of states $Q$. For simplicity, we will take $n=2$ and the states will be $0$ and $1$, so $Q = \{0,1\}$.
@@ -61,7 +68,7 @@
     </section>
 
     <section>
-      <h2><strong>Dirac notation</strong></h2>
+      <h2 id="dirac-notation"><strong>Dirac notation</strong></h2>
       <p>
         Before we introduce the quantum model of computation, we will introduce a notation for describing states.
         <br>We will use the Dirac notation to describe these states, invented by Paul Dirac. This notation will allow us to describe column vectors in a compact and elegant way.
@@ -104,7 +111,7 @@
     </section>
 
     <section>
-      <h2><strong>Quantum Bits</strong></h2>
+      <h2 id="quantum-bits"><strong>Quantum Bits</strong></h2>
       <p>
         A quantum bit, or qubit, is the quantum analogue of a classical bit. Again, suppose we have some set of possible states, $Q$.
         Assume for sake of simplicity that $Q = \{0,1\}$. We maintain our representation of the states as a column vector. However, we no longer represent our states as a probability vector in $\mathbb{R}^2$. 
@@ -133,7 +140,7 @@
     </section>
 
     <section>
-      <h2><strong>Multiple qubits</strong></h2>
+      <h2 id="multiple-qubits"><strong>Multiple qubits</strong></h2>
       <p>
         Just as we can represent a single qubit as a unit vector in $\mathbb{C}^2$, we can extend this representation to multiple qubits.
         For example, consider a system of two qubits. Recall that we can represent the four possible bit strings $(00,01,10,11)$ as the four computational basis states. We can represent the state of two qubits as a unit vector in $\mathbb{C}^4$.
@@ -179,7 +186,7 @@
     </section>
 
     <section>
-      <h2><strong>Tensor products and Entanglement</strong></h2>
+      <h2 id="tensor-products-entanglement"><strong>Tensor products and Entanglement</strong></h2>
       <p>
 
         Let's take two qubits $|x\rangle=\alpha_0|0\rangle+\alpha_1|1\rangle$ and $|y\rangle=\beta_0|0\rangle+\beta_1|1\rangle$. We can represent these qubits as unit vectors in $\mathbb{C}^2$.
@@ -251,14 +258,14 @@
 
         Thus, the joint state is represented by a unit vector in $\mathbb{C}^{mn}$. We can combine more than two quantum systems by repeatedly applying the tensor product.
 
-        The tensor product has some important properties that are worth noting.
-        It is associative:
+        <br>The tensor product has some important properties that are worth noting.
+        <br> It is associative:
         $$(A\otimes B)\otimes C = A\otimes (B\otimes C)$$
         It is distributive over addition:
         $$A\otimes (B+C) = A\otimes B + A\otimes C$$
         It is distributive over scalar multiplication:
         $$c(A\otimes B) = (cA)\otimes B = A\otimes (cB)$$
-        The tensor product howvever is <strong> not commutative </strong>. For example,
+        The tensor product howvever is <strong> not commutative</strong>. For example,
         $$|01 \rangle = | 0 \rangle \otimes | 1 \rangle \not = | 1 \rangle \otimes | 0 \rangle = |10 \rangle.$$
         <br> We can also use tensor products to combine operations on these states.
 
@@ -344,7 +351,7 @@
 
         We have seen how we can combine individual quantum states using tensor products. However, an important distinction between quantum and classical computation is that not every joint quantum state can be written as a tensor product of individual quantum states.
 
-        We call a pure quantum state <strong> entangled </strong> if it cannot be expressed as a tensor product of states.
+        We call a quantum state <strong> entangled </strong> if it cannot be expressed as a tensor product of individual quantum states.
 
         Take the two qubit state
 

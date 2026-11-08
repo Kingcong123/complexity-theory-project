@@ -98,6 +98,16 @@ body {
   font-weight: bold;
 }
 
+.sidebar .subnav a {
+  padding: 0.4rem 1.5rem 0.4rem 2.25rem;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.main h2[id] {
+  scroll-margin-top: 68px;
+}
+
 /* Main content */
 .main {
   margin-top: 52px;
