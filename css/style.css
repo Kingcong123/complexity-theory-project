@@ -179,11 +179,10 @@ body {
 
 .qed {
   display: inline-block;
-  width: 0.65em;
-  height: 0.65em;
-  margin-left: 0.4em;
-  background: #000;
-  vertical-align: middle;
+  margin-left: 0.35em;
+  font-size: 1.1em;
+  line-height: 1;
+  color: #000;
 }
 
 /* MathJax: keep long formulas from overflowing awkwardly */
