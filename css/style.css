@@ -177,6 +177,15 @@ body {
   box-sizing: border-box;
 }
 
+.qed {
+  display: inline-block;
+  width: 0.65em;
+  height: 0.65em;
+  margin-left: 0.4em;
+  background: #000;
+  vertical-align: middle;
+}
+
 /* MathJax: keep long formulas from overflowing awkwardly */
 .main mjx-container {
   overflow-x: auto;
