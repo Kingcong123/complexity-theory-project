@@ -246,24 +246,21 @@
         <br><br>
         Second, quantum information cannot be copied. In classical
         computation, we can take a bit and duplicate it. In quantum computation, 
-        however, this is not possible. 
-        <br> <br>
-              
-        <div class="theorem">
-          <p>
-            <strong>Theorem (No-Cloning Theorem).</strong>
-            There does not exist a unitary transformation $U$ and a fixed
-            auxiliary state $|\phi\rangle$ such that, for every
-            quantum state $|\psi\rangle$,
-          </p>
+        however, this is not possible.
+      </p>
 
-          $$
-            U(|\psi\rangle \otimes |\phi\rangle)
-            = |\psi\rangle \otimes |\psi\rangle.
-          $$
-        </div>
+      <div class="theorem">
+        <strong>Theorem (No-Cloning Theorem).</strong>
+        There does not exist a unitary transformation $U$ and a fixed
+        auxiliary state $|\phi\rangle$ such that, for every
+        quantum state $|\psi\rangle$,
+        $$
+          U(|\psi\rangle \otimes |\phi\rangle)
+          = |\psi\rangle \otimes |\psi\rangle.
+        $$
+      </div>
 
-        <p>
+      <p>
           <strong>Proof.</strong>
           Assume for the sake of contradiction that such a unitary
           transformation $U$ exists.
@@ -311,7 +308,6 @@
           However, these two expressions are different, a
           contradiction.
         </p>
-        <br><br>
         This is exactly why quantum
         circuits do not allow wires to branch as Boolean circuits do. 
         <br><br>
@@ -395,7 +391,6 @@
         Consider the following two-qubit circuit, containing each of our
         three gates, followed by measurement:
         <img src="images/circuit_image.png" alt="Two-qubit quantum circuit with H, T, CNOT, and measurement" class="circuit-diagram">
-        <br><br>
         In this diagram, each horizontal line represents one qubit,
         initialized as the state $|0\rangle$. The boxes labeled $H$ and $T$
         represent the Hadamard and T gates, respectively. The CNOT gate
@@ -426,10 +421,10 @@
         sequence of $H$, $T$, and $\mathrm{CNOT}$ gates, these three gates
         can approximate any unitary transformation arbitrarily well.
         This gives us the following theorem:
-        <br><br>
-        <div class="theorem">
+      </p>
+
+      <div class="theorem">
         <strong>Theorem (Universality of H, T, and CNOT).</strong>
-        <br>
         For any positive integer $n$, any unitary transformation $U$
         acting on $n$ qubits, and any $\varepsilon > 0$, there exists
         a quantum circuit $C$ consisting only of $H$, $T$, and
@@ -441,8 +436,9 @@
         for some real number $\theta$, where $\|\cdot\|$ is the
         operator norm. The factor $e^{i\theta}$ represents a
         phase rotation, which has no effect on the probabilities of measuring the qubits in the computational basis.
-        </div>
-        <br>
+      </div>
+
+      <p>
         In other words, these three gates are approximately universal.
         Similarly to how there are many possible universal sets of Boolean gates we can choose to work with,
         there are also many possible universal sets of quantum gates to choose from.

@@ -114,13 +114,23 @@ body {
 .main {
   margin-top: 52px;
   margin-left: 260px;
-  padding: 2.5rem 3rem;
-  max-width: 42rem;
-  transition: margin-left 0.2s ease;
+  width: calc(100% - 260px);
+  padding: 2.5rem 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: margin-left 0.2s ease, width 0.2s ease;
+}
+
+.main > * {
+  width: 100%;
+  max-width: 50rem;
 }
 
 .main.sidebar-collapsed {
   margin-left: 0;
+  width: 100%;
 }
 
 .main h1 {
@@ -159,14 +169,12 @@ body {
   margin: 1rem 0;
 }
 
-.main .theorem {
-  border: 2px solid #111;
+.theorem {
+  display: block;
+  border: 2px solid #000;
   padding: 0.9rem 1.1rem;
-  margin: 1rem 0 1.25rem;
-}
-
-.main .theorem > p:last-child {
-  margin-bottom: 0;
+  margin: 1.25rem 0;
+  box-sizing: border-box;
 }
 
 /* MathJax: keep long formulas from overflowing awkwardly */
@@ -184,10 +192,12 @@ body {
 
   .main {
     margin-left: 0;
+    width: 100%;
     padding: 1.5rem;
   }
 
   .main.sidebar-collapsed {
     margin-left: 0;
+    width: 100%;
   }
 }
