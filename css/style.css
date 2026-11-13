@@ -87,6 +87,8 @@ body {
   text-decoration: none;
   border-left: 3px solid transparent;
   font-size: 0.95rem;
+  line-height: 1.35;
+  white-space: normal;
 }
 
 .sidebar a:hover {

@@ -31,14 +31,7 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="qubits.html">Bits and Qubits</a>
-      <div class="subnav">
-        <a href="qubits.html#random-motivation">A Random Motivation</a>
-        <a href="qubits.html#dirac-notation">Dirac Notation</a>
-        <a href="qubits.html#quantum-bits">Quantum Bits</a>
-        <a href="qubits.html#multiple-qubits">Multiple Qubits</a>
-        <a href="qubits.html#tensor-products-entanglement">Tensor Products and Entanglement</a>
-      </div>
-      <a href="circuits.html" class="active">Quantum Circuits</a>
+      <a href="circuits.html" class="active">Quantum Circuits and the<br>No-Cloning Theorem</a>
       <div class="subnav">
         <a href="#classical-reversible-gates">Classical Reversible Gates</a>
         <a href="#unitary-transformations-quantum-gates">Unitary Transformations and Quantum Gates</a>
@@ -70,13 +63,13 @@
         <br><br>
         We call a gate <strong> reversible</strong> if it is an injection from the set of possible inputs to the set of possible outputs. In practice, most reversible gates are bijections. 
         Intuitively, a gate is reversible if given the output, we can determine the input.
-        The AND and OR gates, for example, are not reversible. Take our output as $0$. Then, AND($0$,$0$) = $0$ and AND($0$,$1$) = $0$, and there is no way to determine the input from the output
+        The AND and OR gates, for example, are not reversible. Take our output as $0$. Then, AND($0$,$0$) = $0$ and AND($0$,$1$) = $0$, and there is no way to determine the input from the output.
         
         The NOT gate is an example of a reversible gate. We can see that this gate is bijective: NOT($0$) = $1$ and NOT($1$) = $0$.
         <br>
         <br> Next, we will define a crucial reversible gate: The <strong>CNOT (controlled-NOT) gate</strong>. It is defined as follows:
         $$\mathrm{CNOT}(a,b) = (a, a \oplus b)$$ where $\oplus$ is the XOR operation. One can check that this gate is in fact bijective.
-        We call the first bit the <strong> control bit </strong> and the second bit the <strong> target bit </strong>. The target bit is flipped only when the first bit is a $1$.
+        We call the first bit the <strong> control bit </strong> and the second bit the <strong> target bit.</strong> The target bit is flipped only when the first bit is a $1$.
         <br><br>
         We can represent the CNOT gate as the following diagram: 
         <img src="images/cnot.png" alt="CNOT gate" class="circuit-diagram">
@@ -131,11 +124,11 @@
         \end{pmatrix}.
         $$
         
-        Notice that each column of this matrix is a distinct computational basis vector. In fact, the columns are precisely the outputs of $\mathrm{CNOT}$ on the basis states $|00\rangle,|01\rangle,|10\rangle,|11\rangle$, respectively.
+        Notice that each column of this matrix is a unique computational basis vector. In fact, the columns are exactly the outputs of $\mathrm{CNOT}$ on the basis states $|00\rangle,|01\rangle,|10\rangle,|11\rangle$, respectively.
         <br><br>
         Matrices of this form are called permutation matrices. Because their columns form an orthonormal basis, permutation matrices are always unitary.
         Hence, every reversible classical gate can be represented by a unitary transformation. 
-        However, quantum gates are more powerful: instead of permuting computational basis states, they can transform them into superpositions.
+        However, <strong>quantum gates</strong> are more powerful: instead of permuting computational basis states, they can transform them into superpositions.
 
         <h3><strong>The Hadamard Gate</strong></h3>
 
@@ -205,9 +198,256 @@
     </section>
 
     <section>
-      <h2 id="quantum-circuits"><strong>Quantum Circuits</strong></h2>
+      <h2 id="quantum-circuits"><strong>Quantum Circuits and the No-Cloning Theorem</strong></h2>
       <p>
+        Now that we have introduced quantum gates, we can use them to introduce a rigorous definition of 
+        <strong>quantum circuits</strong>, which provide a mathematical model
+        for quantum computation. These circuits are very similar to Boolean circuits, consisting of
+        gates that perform operations on their inputs. However, there are a few differences between the two models.
+        <br><br>
 
+        <h3><strong>A Formal Definition</strong></h3>
+
+        Recall that a Boolean circuit can be represented as a directed acyclic
+        graph (DAG), where vertices represent gates and edges represent the
+        inputs and outputs of gates. We can model quantum circuits in
+         the same way, with a few additional restrictions and changes.
+        <br><br>
+        Formally, a <strong>quantum circuit on $n$ qubits</strong> is a directed
+        acyclic graph consisting of $n$ input vertices, $n$ output vertices,
+        and gate vertices labeled by $H$, $T$, or $\mathrm{CNOT}$, satisfying
+        the following properties:
+        <ul>
+          <li>
+            Each input vertex has exactly one outgoing edge and no incoming edges.
+            Similarly, each output vertex has exactly one incoming edge and no
+            outgoing edges.
+          </li>
+          <li>
+            Each gate vertex has the same number of incoming and outgoing edges.
+            In particular, $H$ and $T$ have one incoming and one outgoing edge,
+            while $\mathrm{CNOT}$ has two incoming and two outgoing edges.
+          </li>
+          <li>
+            Each edge or wire represents the transfer of a qubit from one gate to another.
+            Unlike Boolean circuits, quantum circuits do not allow a wire to branch off into multiple wires.
+          </li>
+          <li>
+            The input and output wires of each gate are ordered. Specifically,
+            the two input wires of a $\mathrm{CNOT}$ gate distinguish its
+            control and target qubits.
+          </li>
+        </ul>
+        Why do we need all of these restrictions? First, quantum gates
+        are unitary transformations, and are reversible. Since a
+        unitary transformation on $k$ qubits maps a $k$-qubit state to another
+        $k$-qubit state, each gate must have the same number of input and output
+        wires.
+        <br><br>
+        Second, quantum information cannot be copied. In classical
+        computation, we can take a bit and duplicate it. In quantum computation, 
+        however, this is not possible. 
+        <br> <br>
+              
+        <div class="theorem">
+          <p>
+            <strong>Theorem (No-Cloning Theorem).</strong>
+            There does not exist a unitary transformation $U$ and a fixed
+            auxiliary state $|\phi\rangle$ such that, for every
+            quantum state $|\psi\rangle$,
+          </p>
+
+          $$
+            U(|\psi\rangle \otimes |\phi\rangle)
+            = |\psi\rangle \otimes |\psi\rangle.
+          $$
+        </div>
+
+        <p>
+          <strong>Proof.</strong>
+          Assume for the sake of contradiction that such a unitary
+          transformation $U$ exists.
+          Since $U$ can copy any quantum state, it must be able to copy
+          both $|0\rangle$ and $|1\rangle$. Therefore,
+        $$
+        \begin{aligned}
+          U(|0\rangle \otimes |\phi\rangle) &= |00\rangle,\\
+          U(|1\rangle \otimes |\phi\rangle) &= |11\rangle.
+        \end{aligned}
+        $$
+          Now, consider the superposition
+        $$
+          |+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle).
+        $$
+          Since $U$ is a unitary transformation, it must be linear.
+          Hence,
+        $$
+        \begin{aligned}
+          U(|+\rangle \otimes |\phi\rangle)
+          &= U\left(
+            \frac{1}{\sqrt{2}}(|0\rangle+|1\rangle)
+            \otimes |\phi\rangle
+          \right)\\
+          &= \frac{1}{\sqrt{2}}
+          \left(
+            U(|0\rangle \otimes |\phi\rangle)
+            + U(|1\rangle \otimes |\phi\rangle)
+          \right)\\
+          &= \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle).
+        \end{aligned}
+        $$
+
+          However, if $U$ copies every quantum state, then it must
+          also copy $|+\rangle$. This implies:
+        $$
+        \begin{aligned}
+          U(|+\rangle \otimes |\phi\rangle)
+          &= |+\rangle \otimes |+\rangle\\
+          &= \frac{1}{2}
+          (|00\rangle+|01\rangle+|10\rangle+|11\rangle).
+        \end{aligned}
+        $$
+        <p>
+          However, these two expressions are different, a
+          contradiction.
+        </p>
+        <br><br>
+        This is exactly why quantum
+        circuits do not allow wires to branch as Boolean circuits do. 
+        <br><br>
+
+        <h3><strong>Quantum Circuits as Unitary Transformations</strong></h3>
+
+        We can use a second perspective when viewing quantum circuits. Rather
+        than viewing it as a graph, we can view it as a sequence of unitary
+        transformations applied to an initial quantum state.
+        <br><br>
+        We will assume that all $n$ input qubits are initially in the state
+        $|0\rangle$. The initial state of our system is
+        $$
+        |\psi_0\rangle = |0\rangle^{\otimes n}
+        = |00\cdots 0\rangle.
+        $$
+        Each gate in the circuit applies a unitary transformation to the
+        qubits on which it acts. Importantly, although a gate may only act on
+        one or two qubits, we can still view it as a unitary
+        transformation on the entire $n$-qubit system.
+        <br><br>
+        For example, suppose that we have three qubits and apply a Hadamard
+        gate to the second qubit. The corresponding transformation on the
+        entire system is
+        $$
+        U = I \otimes H \otimes I,
+        $$
+        where $I$ denotes the identity matrix.
+        This gives the exact representation we want: the Hadamard gate acts on the second qubit, while the
+        first and third qubits are left unchanged. Generally, any gate
+        can be extended to the entire system by acting as the identity on
+        qubits not involved in the operation.
+        <br><br>
+        Because our circuit is a DAG, we can order its gates in a way that
+        respects the dependencies between them. If the overall sequence of unitary transformations is
+        $U_1, U_2, \ldots, U_m$, where each transformation acts on the
+        entire $n$-qubit system.
+        <br><br>
+        Then the final quantum state produced by the circuit is
+        $$
+          |\psi_{\mathrm{final}}\rangle
+          = U_m U_{m-1}\cdots U_2 U_1 |0^n\rangle.
+        $$
+        Therefore, we can think of a quantum circuit in two ways:
+        as a DAG of connected quantum gates, or as
+        a sequence of unitary transformations applied to an initial state.
+        These two perspectives describe the same computation.
+        <br><br>
+
+        <h3><strong>Measurement and Classical Outputs</strong></h3>
+
+        There is one important difference between quantum circuits and
+        Boolean circuits that we have not yet discussed. A Boolean circuit
+        produces a classical bit string as its output. However, the
+        unitary gates of a quantum circuit produce another quantum state.
+        So, how do we generate an answer from this state?
+        <br><br>
+        We use <strong>measurement</strong>. For simplicity, we will
+        assume that all measurements occur after all unitary gates have
+        been applied, or all operations have been performed.
+        <br><br>
+        Hence, unlike a deterministic Boolean circuit, a quantum
+        circuit followed by measurement generates a
+        <strong>probability distribution over bit strings</strong>,
+        rather than a single predetermined output.
+        <br><br>
+        It is worth noting that more general quantum circuits may also
+        contain measurements between gates, with operations afterwards that
+        depend on the measurement results. However, this simpler model
+        of unitary gates followed by a final measurement is enough 
+        for our goals.
+        <br><br>
+
+        <h3><strong>Visualizing Quantum Circuits</strong></h3>
+
+        Just as Boolean circuits can be represented visually using logic
+        gates, quantum circuits can be represented using circuit diagrams.
+        In these diagrams, horizontal lines represent qubit wires, and
+        operations are read from left to right.
+        <br><br>
+        Consider the following two-qubit circuit, containing each of our
+        three gates, followed by measurement:
+        <img src="images/ciruit_image.png" alt="Two-qubit quantum circuit with H, T, CNOT, and measurement" class="circuit-diagram">
+        <br><br>
+        In this diagram, each horizontal line represents one qubit,
+        initialized as the state $|0\rangle$. The boxes labeled $H$ and $T$
+        represent the Hadamard and T gates, respectively. The CNOT gate
+        is represented by a filled circle connected to a circled plus.
+        The filled circle marks the control qubit, while the circled
+        plus marks the target qubit.
+        <br><br>
+        Finally, the meter symbols represent measurement in the computational
+        basis, producing two bits $b_1$ and $b_2$. Reading from
+        left to right, we can see how the quantum gates transform the
+        initial state before the final output is reached.
+        <br><br>
+
+        <h3><strong>Why H, T, and CNOT?</strong></h3>
+
+        At this point, one might wonder why we chose
+        $H$, $T$, and $\mathrm{CNOT}$ as our gates on which we build quantum circuits?
+        Are there other gates we could use instead?
+        <br><br>
+        Consider again Boolean circuits. The choice of elementary
+        Boolean gates is not unique. Although we can choose work with AND, OR,
+        and NOT gates, the NAND gate alone is enough to compute any
+        Boolean function. We say that NAND is a
+        <strong>universal gate</strong> for Boolean circuits.
+        <br><br>
+        We introduce a similar result for quantum circuits. Although we cannot
+        implement every unitary transformation exactly using a finite
+        sequence of $H$, $T$, and $\mathrm{CNOT}$ gates, these three gates
+        can approximate any unitary transformation arbitrarily well.
+        This gives us the following theorem:
+        <br><br>
+        <div class="theorem">
+        <strong>Theorem (Universality of H, T, and CNOT).</strong>
+        <br>
+        For any positive integer $n$, any unitary transformation $U$
+        acting on $n$ qubits, and any $\varepsilon > 0$, there exists
+        a quantum circuit $C$ consisting only of $H$, $T$, and
+        $\mathrm{CNOT}$ gates such that the overall unitary transformation
+        $U_C$ satisfies
+        $$
+        \|U - e^{i\theta} U_C\| < \varepsilon
+        $$
+        for some real number $\theta$, where $\|\cdot\|$ is the
+        operator norm. The factor $e^{i\theta}$ represents a
+        phase rotation, which has no effect on the probabilities of measuring the qubits in the computational basis.
+        </div>
+        <br>
+        In other words, these three gates are approximately universal.
+        Similarly to how there are many possible universal sets of Boolean gates we can choose to work with,
+        there are also many possible universal sets of quantum gates to choose from.
+        We choose $H$, $T$, and $\mathrm{CNOT}$ because they form a
+        simple, finite set of gates.
       </p>
     </section>
 
