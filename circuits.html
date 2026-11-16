@@ -319,7 +319,6 @@
         |\psi_0\rangle = |x\rangle\otimes|0\rangle^{\otimes m}.
         $$
 
-        <br><br>
         Let's consider a small example. Suppose that we have three qubits and apply a Hadamard gate to the second qubit. 
         The corresponding transformation on the entire system is
         $$
@@ -337,7 +336,7 @@
         <br><br>
         Then the final quantum state produced by the circuit is
         $$
-          |\psi_{\mathrm{final}}\rangle = U_m U_{m-1}\cdots U_2 U_1 |0^n\rangle.
+          |\psi_{\mathrm{final}}\rangle = U_m U_{m-1}\cdots U_2 U_1 |\psi_0\rangle.
         $$
         Therefore, we can think of a quantum circuit in two ways:
         as a DAG of connected quantum gates, or as a sequence of unitary transformations applied to an initial state.
