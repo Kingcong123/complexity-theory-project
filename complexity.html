@@ -46,19 +46,83 @@
 
     <section>
       <p>
-        Since we now understand how to rigorously model quantum circuits, we can now reason about the complexity of these circuits.
+        Since we now understand how to rigorously model quantum circuits, we can finally reason about the complexity of these circuits.
         Using this, we will introduce some basic complexity classes related to quantum circuits, and discuss the <strong>Strong Church–Turing Thesis</strong>.
       </p>
     </section>
 
     <section>
       <h2 id="complexity-classes"><strong>Complexity Classes</strong></h2>
-
-      <p></p>
-
-      <h3><strong>Quantum Circuit Complexity</strong></h3>
-
-      <p></p>
+      <p>
+        Similar to how we can define the size of a Boolean circuit, we can define the <strong>size of a quantum circuit</strong> as the
+        total number of gates it contains. We can also define the <strong>depth of a quantum circuit</strong> as the maximum
+        number of gates along any directed path through the circuit.
+      </p>
+      
+      <p>
+        Like Boolean circuits, quantum circuits are a non-uniform model of computation. 
+        A single quantum circuit operates on a fixed number of qubits, so we need to consider a family of
+        circuits to perform computations on inputs of arbitrary length.
+      </p>
+      
+      <p>
+        A <strong>quantum circuit family</strong> is a sequence $\{C_n\}_{n\in\mathbb{N}}$, 
+        where $C_n$ is a quantum circuit that takes as input classical bit strings of length $n$.
+        The family is said to be <strong>polynomial-size</strong> if there exists a polynomial $p(n)$ such that the size
+        of $C_n$ is bounded by $p(n)$ for every $n$.
+      </p>
+      
+      <p>
+        However, just as with Boolean circuits, non-uniformity gives us too much freedom in our computation. 
+        Therefore, we also require that the circuits must be constructed efficiently.
+      </p>
+      
+      <p>
+        We say that a quantum circuit family is <strong>polynomial-time uniform</strong> if there exists a
+        deterministic Turing machine $M$ such that, given $1^n$ as input,  outputs a description of $C_n$ in polynomial time.
+      </p>
+      
+      <p>
+        Now, what does it mean for a quantum circuit family to compute a function $f:\{0,1\}^*\to\{0,1\}$?
+        The answer to this question is slightly more complicated than for Boolean circuits.
+        Unlike a Boolean circuit, which has a deterministic output, the measurement performed on a quantum circuit's output is probabilistic.
+      </p>
+      
+      <p>
+        First, we need to define how a quantum circuit outputs a classical bit.
+        Given a classical input $x\in\{0,1\}^n$, we initialize the first $n$ qubits to $|x\rangle$. 
+        We may also use additional ancilla qubits initialized to $|0\rangle$.
+        Therefore, if the circuit uses $m$ ancilla qubits,
+        its initial state is
+      
+      $$
+        |\psi_0\rangle = |x\rangle\otimes|0\rangle^{\otimes m}.
+      $$
+      
+        After applying the circuit's unitary transformations, we measure one designated output qubit in the computational basis. 
+        The measurement outcome, either $0$ or $1$, is defined as the classical output of the circuit.
+      </p>
+      
+      <p>
+        With all of this in place, we can now formally define what it means for a quantum family to compute a Boolean function.
+      </p>
+      
+      <div class="theorem">
+        <strong>Definition: Computing with Bounded Error.</strong>
+      
+        A quantum circuit family $\{C_n\}_{n\in\mathbb{N}}$ <strong>computes</strong> a function $f:\{0,1\}^*\to\{0,1\}$ with error $\varepsilon$ 
+        if, for every $n\in\mathbb{N}$ and every $x\in\{0,1\}^n$,
+      
+        $$
+            \Pr[C_n(x)=f(x)]\geq 1-\varepsilon.
+        $$
+      
+        Here, the probability is taken over the possible outcomes of the circuit's final measurement.
+      </div>
+      
+      <p>
+        When $\varepsilon=0$, the circuit family computes $f$ exactly. For bounded-error computation, we typically require $\varepsilon < 1/2$.
+      </p>
 
       <h3><strong>Bounded-Error Quantum Polynomial Time (BQP)</strong></h3>
 
