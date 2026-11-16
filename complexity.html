@@ -176,11 +176,11 @@
         This is a striking contrast with classical computation.
         The fastest known classical factoring methods, such as the General Number Field Sieve, have subexponential running times.
         No classical polynomial-time factoring algorithm is currently known, even if we allow randomized algorithms with bounded error 
-        (otherwise we would have some problem with cryptographic security).
+        (otherwise we would have some problems in cryptographic security).
       </p>
       
       <p>
-        While this does not prove that quantum computers are strictly more powerful than classical computers, 
+        While this does not prove that quantum computation is strictly more powerful than classical computation, 
         it provides some evidence that quantum computation may offer some advantages.
         We will not explore Shor's algorithm in this project, but will instead study another important quantum algorithm: Grover's algorithm.
       </p>
@@ -266,16 +266,52 @@
       similar to the case with $\mathsf{BPP}$ and $\mathsf{NP}$.
     </p>
       
-
-
-
-      <p></p>
     </section>
 
     <section>
       <h2 id="strong-church-turing-thesis"><strong>The Strong Church–Turing Thesis</strong></h2>
- 
-      <p></p>
+        <p>
+          Recall the <strong>Church–Turing Thesis</strong>, which states
+          that any function that can be computed by an effective algorithm can also be computed by a Turing machine.
+          In other words, Turing machines capture our intuitive idea of what it means for a function to be computable.
+        </p>
+
+        <p>
+          However, the Church–Turing Thesis says nothing about the efficiency of a computation. 
+          Even if a Turing machine can simulate another computational model, this simulation might require significantly more time.
+          This motivates a stronger version of the thesis.
+        </p>
+        
+        <div class="theorem">
+          <strong>The Strong Church–Turing Thesis.</strong>
+          Every physically feasible model of computation can be simulated by a probabilistic Turing machine
+          with at most a polynomial increase in running time.
+        </div>
+
+        <p>
+          Quantum computing, however, challenges this thesis.
+          As we have seen, quantum computers operate according to different principles when compared to classical computers, 
+          using ideas like superposition and entanglement.
+          Although quantum computations can be simulated by classical computers, 
+          we do not know whether they can always be simulated with only polynomial overhead.
+        </p>
+
+        <p>
+          In fact, if we could prove that
+          $$
+            \mathsf{BPP}\subsetneq\mathsf{BQP},
+          $$
+          which we think is the case, we would show that there exist problems solvable
+          efficiently by quantum computers but not by any probabilistic Turing machine. 
+          Assuming quantum computers are physically feasible, this would contradict the Strong Church–Turing Thesis.
+        </p>
+
+        <p>
+          While we have stated before that we have been unable to prove such a separatio so far, 
+          quantum algorithms do provide some evidence that quantum computation can offer advantages over classical computation.
+          One particularly example is <strong>Grover's algorithm</strong>, which we will discuss in detail in the next section.
+        </p>
+
     </section>
   </main>
 
