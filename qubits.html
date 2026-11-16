@@ -224,10 +224,7 @@
         $$
         \begin{aligned}
         |x\rangle\otimes|y\rangle
-        ={}&\alpha_0\beta_0|00\rangle
-        +\alpha_0\beta_1|01\rangle\\
-        &+\alpha_1\beta_0|10\rangle
-        +\alpha_1\beta_1|11\rangle.
+        ={}&\alpha_0\beta_0|00\rangle +\alpha_0\beta_1|01\rangle +\alpha_1\beta_0|10\rangle +\alpha_1\beta_1|11\rangle.
         \end{aligned}
         $$
 
@@ -388,12 +385,39 @@
         Both of these equations cannot all be satisfied at the same time. Therefore, the state cannot be written as the tensor product of two individual qubit states.
         <br><br>
         <h3> <strong> Partial Measurements </strong> </h3>
+        
+        Instead of measuring all $n$ qubits, we can also measure only a subset of the qubits. This is called a <strong>partial measurement</strong>.
+        <p>
+        How do we calculate the probabilities of measuring a single qubit? 
+        Recall that any $n$-qubit quantum state can be written as
+        $$
+            |\psi\rangle = \sum_{x\in\{0,1\}^n}\alpha_x|x\rangle,
+        $$
+        where $\alpha_x$ is the complex amplitude associated with the computational basis state $|x\rangle$.
+        </p>
+          
+        <p>
+        Suppose we measure only the $i$-th qubit. 
+        To calculate the probability of observing $0$, we sum the squared magnitudes of the amplitudes corresponding
+        to all basis states whose $i$-th bit is $0$. Similarly, for observing $1$, 
+        we sum over all basis states whose $i$-th bit is $1$.
+        </p>
+          
+        $$
+        \begin{aligned}
+        \Pr[\text{qubit }i=0] &=\sum_{\substack{x\in\{0,1\}^n\\x_i=0}}
+        |\alpha_x|^2,\\[6pt] \Pr[\text{qubit }i=1] 
+        &=\sum_{\substack{x\in\{0,1\}^n\\x_i=1}}|\alpha_x|^2.
+        \end{aligned}
+        $$
+          
+        <p>
+        These probabilities sum to $1$, since every computational basis state has either a $0$ or a $1$ in its $i$-th position.
+        Measuring a single qubit also changes the quantum state of the entire system, as shown in the following example.
+        </p>
 
-        One interesting consequence of entanglement arises when we measure only part of a quantum system. 
-        So far, we have discussed measuring all $n$ qubits to obtain a bit string of length $n$.
-        However, we can also measure only a portion of the qubits, leaving the others. This is called a <strong>partial measurement</strong>.
-
-        Again, take the entangled state
+        One interesting consequence of entanglement can be shown when we measure only part of a quantum system. 
+        As before, take the entangled state
 
         $$
         |\psi\rangle=\frac{|00\rangle+|11\rangle}{\sqrt2}.
@@ -405,9 +429,10 @@
             <li> With probability $1/2$, we observe $1$, and the joint state collapses to $|11\rangle$. </li>
         </ul>
 
-        Notice that although we only measured the first qubit, the state of the entire system changed. In particular, after observing the first qubit, we can determine with certainty what we would observe if we measured the second qubit in the computational basis.
+        Notice that although we only measured the first qubit, the state of the entire system changed. 
+        In particular, after observing the first qubit, we can determine with certainty what we would observe if we measured the second qubit in the computational basis.
 
-        This shows how entangled qubits can represent correlations that cannot be described by assigning independent quantum states to each qubit.
+        This shows how entangled qubits can represent relationships that cannot be described by assigning independent quantum states to each qubit.
       </p>
     </section>
   </main>
