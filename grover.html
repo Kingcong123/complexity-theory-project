@@ -164,6 +164,106 @@
         We then analyze the number of oracle queries needed to solve the problem.
       </p>
     </section>
+    <section>
+      <h2 id="intuition"><strong>High-Level Intuition</strong></h2>
+      <h3><strong>Starting with a Superposition</strong></h3>
+      <p>
+        Now that we have constructed the phase oracle, how can we use it to find $w$?
+        Since there are $N=2^n$ possible inputs, we could start by making uniform superposition.
+        Starting with $|0^n\rangle$, we apply a Hadamard
+        gate to every qubit:
+        $$
+          |s\rangle=H^{\otimes n}|0^n\rangle =\frac{1}{\sqrt{N}}\sum_{x\in\{0,1\}^n}|x\rangle.
+        \]
+        Here ${\otimes n}$ denotes the tensor product of $n$ Hadamard gates. 
+        Every possible input now has the same amplitude $\frac{1}{\sqrt{N}}$. 
+        However, if we measure all the qubits, the probability of observing $w$ is still only $\frac{1}{N}$. 
+      </p>
+      <p>
+        Now, what if we apply the phase oracle to this state? We get
+        $$
+          O_f|s\rangle =-\frac{1}{\sqrt{N}}|w\rangle+\frac{1}{\sqrt{N}}\sum_{x\neq w}|x\rangle.
+        $$
+        The marked amplitude has become negative, but its magnitude has not changed, so measuring still returns $w$ with probability $\frac{1}{N}$.
+        So, how did this help us?
+      </p>
+      <h3><strong>The First Reflection: Marking the Correct State</strong></h3>
+      <p>
+        The important distinction between quantum amplitudes and probabilities is that amplitudes can interfere with each other. 
+        A negative amplitude may cancel with another amplitude or amplify/increase an amplitude given an appropriate transformation.
+        Therefore, we need another transformation that turns the work done by our phase oracle into a larger measurement probability.
+      </p>
+      <p>
+        Geometrically, we may think of the phase oracle is a <strong>reflection</strong>. 
+        It changes the sign of the component in the direction $|w\rangle$ while leaving all orthogonal components unchanged. 
+        This is equivalent to reflecting the state across the direction corresponding to the superposition of all unmarked inputs.
+      </p>
+      <h3><strong>The Second Reflection: Inversion About the Mean</strong></h3>
+      <p>
+        The second transformation is called the <strong>Grover diffusion operator</strong>, denoted by $D$. 
+        Take the current to be 
+        $$
+          |\psi\rangle=\sum_x\alpha_x|x\rangle,
+        $$
+        and let $\mu$ denote the mean of its amplitudes
+        $$
+          \mu=\frac{1}{N}\sum_x\alpha_x.
+        $$
+        The diffusion operator $D$ is the linear transformation defined by
+        $$
+          \boxed{D|\psi\rangle=\sum_x(2\mu-\alpha_x)|x\rangle.}
+        $$
+        We can see that $D$ replaces every amplitude $\alpha_x$ with $2\mu-\alpha_x$. 
+        Each amplitude is reflected about the mean $\mu$. An amplitude below the mean moves above it by the same amount, and vice versa.
+        We will show below that this operation is a unitary transformation and that it is a reflection across the direction $|s\rangle$.
+      </p>
+      <p>
+        Now, lets see what happens when we apply $D$ directly after the phase oracle. 
+        The marked amplitude is $-\frac{1}{\sqrt{N}}$.The $N-1$ unmarked inputs have amplitudes $\frac{1}{\sqrt{N}}$.
+        Their mean is
+        $$
+          \mu=\frac{N-2}{N\sqrt{N}}=\frac{1-2/N}{\sqrt{N}}.
+        $$
+        Therefore, after we apply $D$, the marked amplitude becomes
+        $$
+          2\mu-\left(-\frac{1}{\sqrt{N}}\right)=\frac{3-4/N}{\sqrt{N}},
+        $$
+        however, each unmarked amplitude becomes
+        $$
+          2\mu-\frac{1}{\sqrt{N}}=\frac{1-4/N}{\sqrt{N}}.
+        $$
+        For large $N$, the marked amplitude has increased from approximately $1/\sqrt{N}$ to $3/\sqrt{N}$, while the other amplitudes have changed only slightly. 
+        We have used the property of quantum interference to increase the amplitude of the marked input!
+      </p>
+      <h3><strong>If It Works, Don't Touch It!</strong></h3>
+      <p>
+        What happens if we apply the phase oracle and diffusion operator again? 
+        The oracle again reverses the marked amplitude, and the diffusion operator again reflects all amplitudes around the new mean. 
+        For the first few iterations, this continues to increase the amplitude of the marked state. 
+      </p>
+      <p>
+        However, this increase does continue forever. 
+        To understand both why this is, it helps to take a geometric perspective.
+        We can think of the computation as taking place inside a 2D plane. 
+        In this plane, the first operation reflects the state across the unmarked direction, while the second reflects it across the uniform superposition $|s\rangle$.
+        The composition of two reflections is a <strong>rotation</strong>. 
+        Each pair of reflections rotates the state by a small, fixed angle toward the desired state $|w\rangle$.
+      </p>
+
+     <figure>
+      <img src="images/grover_rotation.png" alt="Geometric picture of Grover iteration">
+        <figcaption>
+          The first reflection sends the initial state below the unmarked axis. 
+          The second reflects it across the uniform superposition, rotating the state toward the axis that corresponds to the marked state.
+        </figcaption>
+      </figure>
+
+      <p>
+        Every iteration which we call a <strong>>Grover iteration</strong> rotates it by approximately $2/\sqrt{N}$ radians. 
+        After about $\frac{\pi}{4}\sqrt{N}$ iterations, the state is close to $|w\rangle$, so measuring returns $w$ with high probability. 
+       If we continue to apply iterations, we begin rotating past the marked direction.
+      </p>
+    </section>
 
    
   </main>
