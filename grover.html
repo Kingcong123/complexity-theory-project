@@ -264,7 +264,322 @@
        If we continue to apply iterations, we begin rotating past the marked direction.
       </p>
     </section>
+    <section>
+      <h2 id="algorithm"><strong>Grover's Algorithm</strong></h2>
+      <p>
+        We can denote each Grover iteration as $G=DO_f$, an application of the phase oracle followed by the diffusion operator.
+      </p>
+      <div class="theorem">
+        <strong>Grover's Algorithm</strong>
+        <p>
+          Initialize $n$ qubits to $|0^n\rangle$.
+          Apply $H^{\otimes n}$ to obtain $|s\rangle=\frac{1}{\sqrt{N}}\sum_x|x\rangle$.
+          Apply $G=DO_f$ a total of $k$ times, where $k=\operatorname{round}\left(\frac{\pi}{4\arcsin(1/\sqrt{N})}-\frac12\right)$.
+          Measure all $n$ qubits in the computational basis and output the observed bit string.
+        </p>
+      </div>
+      <p>
+        There is still one detail to address: can we actually construct the diffusion operator
+        using quantum gates? Recall that \(|s\rangle=H^{\otimes n}|0^n\rangle\) and that
+        \(H^{\otimes n}\) is its own inverse. Define the transformation \(Z_0\) on
+        computational basis states by
+        \[
+          Z_0|x\rangle=
+          \begin{cases}
+          |x\rangle,&amp;\text{if }x=0^n,\\
+          -|x\rangle,&amp;\text{otherwise}.
+          \end{cases}
+        \]
+        In other words, \(Z_0\) leaves \(|0^n\rangle\) unchanged but reverses the
+        signs of all the other computational basis states. We can implement
+        \(Z_0\) by reversibly checking whether the input is \(0^n\), applying a
+        phase change conditioned on the result, and uncomputing the auxiliary bits.
+        This uses polynomially many elementary gates.
+      </p>
+      <p>
+        We claim that
+        \[
+          \boxed{D=H^{\otimes n}Z_0H^{\otimes n}.}
+        \]
+        To see why, recall that applying \(H^{\otimes n}\) to \(|s\rangle\)
+        produces \(|0^n\rangle\). Any component orthogonal to \(|s\rangle\)
+        is sent to a component orthogonal to \(|0^n\rangle\), since unitary
+        transformations preserve inner products. The operation \(Z_0\) keeps
+        the \(|0^n\rangle\) component unchanged and negates everything
+        orthogonal to it. Finally, applying \(H^{\otimes n}\) again returns us
+        to the original basis. Thus, the combined operation preserves the
+        component in the direction \(|s\rangle\) and negates the perpendicular
+        component, precisely as \(D\) does. No additional query to the unknown
+        oracle \(f\) is needed to implement \(D\).
+      </p>
+    </section>
 
+    <section>
+      <h2 id="analysis"><strong>Rigorous Analysis</strong></h2>
+      <h3><strong>Reducing the Computation to Two Dimensions</strong></h3>
+      <p>
+        Although an \(n\)-qubit state is represented by a vector in the
+        \(N\)-dimensional space \(\mathbb{C}^N\), we will show that Grover's algorithm
+        only uses a two-dimensional subspace. Let \(|w\rangle\) denote the marked
+        computational basis state, and define
+        \[
+          |r\rangle=\frac{1}{\sqrt{N-1}}\sum_{x\neq w}|x\rangle.
+        \]
+        Here, \(|r\rangle\) is the normalized uniform superposition of all unmarked
+        inputs. These two states are orthogonal: \(|w\rangle\) has a nonzero
+        amplitude only at the marked input, while \(|r\rangle\) has amplitude
+        zero there. Both vectors also have norm \(1\). Hence, \(|w\rangle\)
+        and \(|r\rangle\) form an orthonormal basis for a two-dimensional plane.
+      </p>
+      <p>
+        The initial uniform superposition can be written in this basis as
+        \[
+          |s\rangle
+          =\frac{1}{\sqrt{N}}|w\rangle
+          +\sqrt{\frac{N-1}{N}}|r\rangle.
+        \]
+        Define \(\theta\in(0,\pi/2)\) by
+        \[
+          \sin\theta=\frac{1}{\sqrt{N}},\qquad
+          \cos\theta=\sqrt{\frac{N-1}{N}}.
+        \]
+        Then
+        \[
+          |s\rangle=\sin\theta\,|w\rangle+\cos\theta\,|r\rangle.
+        \]
+        In particular, \(\theta=\arcsin(1/\sqrt{N})\), which is approximately
+        \(1/\sqrt{N}\) for large \(N\).
+      </p>
+      <h3><strong>Showing That the Two Operations Are Reflections</strong></h3>
+      <p>
+        First, consider the phase oracle. By definition, it negates \(|w\rangle\)
+        and fixes every unmarked computational basis state, so
+        \[
+          O_f|w\rangle=-|w\rangle,\qquad O_f|r\rangle=|r\rangle.
+        \]
+        Thus, within our plane, \(O_f\) is a reflection across the \(|r\rangle\)-axis.
+        In particular, it preserves the plane spanned by \(|w\rangle\) and \(|r\rangle\).
+      </p>
+      <p>
+        Now consider the diffusion operator \(D\). We will show that it preserves
+        the component of a state parallel to \(|s\rangle\), while negating its
+        component orthogonal to \(|s\rangle\).
+      </p>
+      <p>
+        Let \(|\psi\rangle=\sum_x\alpha_x|x\rangle\), and define
+        \[
+          a=\frac{1}{\sqrt{N}}\sum_x\alpha_x.
+        \]
+        We can write \(|\psi\rangle=a|s\rangle+|v\rangle\), where
+        \(|v\rangle\) is orthogonal to \(|s\rangle\). Indeed, subtracting
+        \(a|s\rangle\) makes the sum of the remaining amplitudes zero,
+        which is exactly the condition for orthogonality to the uniform state.
+        Since \(|s\rangle=(1/\sqrt{N})\sum_x|x\rangle\), our definition
+        of the diffusion operator gives
+        \[
+          \begin{aligned}
+          D|\psi\rangle
+          &amp;=2a|s\rangle-|\psi\rangle\\
+          &amp;=2a|s\rangle-(a|s\rangle+|v\rangle)\\
+          &amp;=a|s\rangle-|v\rangle.
+          \end{aligned}
+        \]
+        Therefore, \(D\) preserves the component parallel to \(|s\rangle\)
+        while negating the orthogonal component. This is exactly a reflection
+        across the direction \(|s\rangle\). It also shows that \(D\) is
+        unitary: reflecting twice gives back the original state, and a
+        reflection preserves lengths and inner products. Since \(|s\rangle\)
+        lies in our two-dimensional plane, \(D\) preserves this plane.
+      </p>
+      <p>
+        We have proved that the entire computation remains in the plane spanned by
+        \(|w\rangle\) and \(|r\rangle\). Moreover, the phase oracle and diffusion
+        operator are reflections about axes separated by the angle \(\theta\).
+        Their composition rotates the state by an angle \(2\theta\). To make the
+        direction and size of this rotation precise, we can calculate its matrix.
+      </p>
+      <h3><strong>The State After Each Grover Iteration</strong></h3>
+      <div class="theorem">
+        <strong>Theorem.</strong> For every integer \(k\geq 0\), after \(k\)
+        Grover iterations the state of the register is
+        \[
+          \boxed{
+          G^k|s\rangle
+          =\sin((2k+1)\theta)|w\rangle
+           +\cos((2k+1)\theta)|r\rangle.}
+        \]
+      </div>
+      <p>
+        <strong>Proof.</strong> We will represent the two operators as matrices in the
+        ordered orthonormal basis \((|w\rangle,|r\rangle)\). The oracle is
+        \[
+          O_f=\begin{pmatrix}-1&amp;0\\0&amp;1\end{pmatrix}.
+        \]
+        To compute the matrix of \(D\), take any state in this plane,
+        \(|\psi\rangle=a|w\rangle+b|r\rangle\). Since
+        \(|s\rangle=\sin\theta|w\rangle+\cos\theta|r\rangle\),
+        its component along \(|s\rangle\) has coefficient
+        \(c=a\sin\theta+b\cos\theta\). As we just proved,
+        \(D|\psi\rangle=2c|s\rangle-|\psi\rangle\). Hence
+        \[
+          \begin{aligned}
+          D|\psi\rangle
+          &amp;=(2c\sin\theta-a)|w\rangle
+             +(2c\cos\theta-b)|r\rangle.
+          \end{aligned}
+        \]
+        Substituting the value of \(c\), the matrix of \(D\) is therefore
+        \[
+          \begin{aligned}
+          D
+          &amp;=\begin{pmatrix}
+             2\sin^2\theta-1&amp;2\sin\theta\cos\theta\\
+             2\sin\theta\cos\theta&amp;2\cos^2\theta-1
+             \end{pmatrix}\\
+          &amp;=\begin{pmatrix}
+             -\cos(2\theta)&amp;\sin(2\theta)\\
+             \sin(2\theta)&amp;\cos(2\theta)
+             \end{pmatrix}.
+          \end{aligned}
+        \]
+        Multiplying these matrices, we obtain
+        \[
+          G=DO_f=\begin{pmatrix}
+             \cos(2\theta)&amp;\sin(2\theta)\\
+             -\sin(2\theta)&amp;\cos(2\theta)
+          \end{pmatrix}.
+        \]
+        Suppose a state in this plane is
+        \[
+          |\psi\rangle=\sin\varphi|w\rangle+\cos\varphi|r\rangle.
+        \]
+        Then
+        \[
+          \begin{aligned}
+          G|\psi\rangle
+          &amp;=(\sin\varphi\cos2\theta+\cos\varphi\sin2\theta)|w\rangle\\
+          &amp;\quad+(\cos\varphi\cos2\theta-\sin\varphi\sin2\theta)|r\rangle\\
+          &amp;=\sin(\varphi+2\theta)|w\rangle
+                 +\cos(\varphi+2\theta)|r\rangle.
+          \end{aligned}
+        \]
+        Thus, one Grover iteration increases the angle from the \(|r\rangle\)-axis
+        by exactly \(2\theta\). Since the initial state \(|s\rangle\) starts
+        at angle \(\theta\), after \(k\) iterations the angle is
+        \(\theta+2k\theta=(2k+1)\theta\), proving the desired formula.
+        <span class="qed" title="Q.E.D." aria-label="Q.E.D.">&#9632;</span>
+      </p>
+
+      <section>
+        <h2 id="algorithm"><strong>The Algorithm</strong></h2>
+        <p>
+          We can now describe Grover's algorithm using only the two transformations we have
+          introduced. Recall that
+          \[
+            O_f|x\rangle=(-1)^{f(x)}|x\rangle,
+            \qquad
+            D\left(\sum_x\alpha_x|x\rangle\right)
+            =\sum_x(2\mu-\alpha_x)|x\rangle,
+            \quad \mu=\frac1N\sum_x\alpha_x.
+          \]
+          One application of the oracle followed by the diffusion operator is called a
+          <strong>Grover iteration</strong>, denoted by
+          \[
+            G=DO_f.
+          \]
+        </p>
+        <div class="theorem">
+          <strong>Grover's Algorithm</strong>
+          <p>
+            Initialize $n$ qubits to $|0^n\rangle$.
+            <br>
+            Apply $H^{\otimes n}$ to obtain $|s\rangle=\frac{1}{\sqrt{N}}\sum_x|x\rangle$.
+            <br>
+            Apply $G=DO_f$ a total of $k$ times, where $k=\left\lfloor\frac{\pi}{4\arcsin(1/\sqrt{N})}\right\rfloor$.
+            <br>
+            Measure all $n$ qubits in the computational basis and output the observed bit string.
+          </p>
+        </div>
+      <section>
+        <h2 id="analysis"><strong>Rigorous Analysis</strong></h2>
+        <p>
+          We now prove that Grover's algorithm finds the marked input with high probability
+          after only $O(\sqrt{N})$ iterations.
+          We will use the geometric perspective introduced in the previous section. 
+        </p>
+  
+        <h3><strong>Reducing the Problem to Two Dimensions</strong></h3>
+        <p>
+          Let $|w\rangle$ be the marked computational basis state. 
+          We also define $|r\rangle$ to be the equal superposition of all the unmarked states:
+          $$
+          |r\rangle=\frac{1}{\sqrt{N-1}}\sum_{x\neq w}|x\rangle.
+          $$
+  
+          Both $|w\rangle$ and $|r\rangle$ have norm $1$, and they are
+          orthogonal, since they have no nonzero amplitudes at the same positions.
+          Hence, they span a two-dimensional plane.
+        </p>
+        <p>
+          Recall that the initial state is the uniform superposition of all inputs.
+          We can rewrite it using our two new vectors:
+          $$
+            |s\rangle=\frac{1}{\sqrt{N}}|w\rangle+\sqrt{\frac{N-1}{N}}|r\rangle.
+          $$
+          Now define an angle $\theta$ by
+          $$
+            \sin\theta=\frac{1}{\sqrt{N}},\quad
+            \cos\theta=\sqrt{\frac{N-1}{N}}.
+          $$
+          Thus,
+          $$
+            \boxed{|s\rangle=\sin\theta\,|w\rangle+\cos\theta\,|r\rangle.}
+          $$
+          If we draw $|r\rangle$ as the horizontal axis and $|w\rangle$ as the vertical axis, 
+          then $|s\rangle$ makes an angle of $\theta$ with the horizontal axis. 
+          Notice that $\theta=\arcsin(1/\sqrt N)$, which is approximately $1/\sqrt N$ when $N$ is large.
+        </p>
+  
+        <h3><strong>Why Each Iteration Is a Rotation</strong></h3>
+        <p>
+          First, consider the phase oracle. It negates the marked state but leaves the uniform superposition of unmarked states unchanged:
+          $$
+            O_f|w\rangle=-|w\rangle,\quad O_f|r\rangle=|r\rangle.
+          $$
+          Therefore, the oracle reflects a vector across the $|r\rangle$-axis.
+        </p>
+        <p>
+          Next, take our definition of the diffusion operator. If $|\psi\rangle=\sum_x\alpha_x|x\rangle$ and $\mu=\frac1N\sum_x\alpha_x$, then
+           $$
+            D|\psi\rangle=\sum_x(2\mu-\alpha_x)|x\rangle.
+          $$
+          Since $|s\rangle=\frac1{\sqrt N}\sum_x|x\rangle$, we can also write
+          $$
+            D|\psi\rangle=2\sqrt N\,\mu\,|s\rangle-|\psi\rangle.
+          $$
+  
+          To understand where is comes from, take $|\psi\rangle=c|s\rangle+|v\rangle$, where
+          $c=\sqrt N\,\mu$ and $|v\rangle$ is orthogonal to $|s\rangle$.
+          This is possible because subtracting $c|s\rangle$ leaves a state whose amplitudes sum to zero. 
+          Substituting gives
+          $$
+            D|\psi\rangle=2c|s\rangle-(c|s\rangle+|v\rangle)=c|s\rangle-|v\rangle.
+          $$
+          Hence, the diffusion operator leaves the component along $|s\rangle$ untouched and negates the orthogonal part. 
+          In other words, it reflects vectors across the $|s\rangle$-axis. 
+        </p>
+        <p>
+          Both reflections keep the plane spanned by $|w\rangle$ and $|r\rangle$ unchanged. 
+          Suppose our current state makes an angle $\varphi$ with the $|r\rangle$-axis, measured toward $|w\rangle$.
+          The oracle reflects this angle from $\varphi$ to $-\varphi$.
+          The diffusion operator then reflects it across the direction $|s\rangle$,
+          which is at angle $\theta$, changing the angle to
+          $$
+            2\theta-(-\varphi)=\varphi+2\theta.
+          $$
+          Thus, <strong>one complete Grover iteration rotates the state by exactly $2\theta$ toward the marked direction</strong>.
+        </p>
+      </section>
    
   </main>
 
