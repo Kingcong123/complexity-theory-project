@@ -165,6 +165,209 @@
       </p>
     </section>
 
+    <section>
+      <h2 id="intuition"><strong>High-Level Intuition</strong></h2>
+      <h3><strong>Starting with a Superposition</strong></h3>
+      <p>
+        Now that we have constructed the phase oracle, how can we use it to find $w$?
+        Since there are $N=2^n$ possible inputs, we can start by creating a uniform superposition of all of them. 
+        Beginning with $|0^n\rangle$, apply a Hadamard gate to every qubit:
+        $$
+          |s\rangle=H^{\otimes n}|0^n\rangle=\frac{1}{\sqrt{N}}\sum_{x\in\{0,1\}^n}|x\rangle.
+        $$
+        Here ${\otimes n}$ denotes the tensor product of $n$ Hadamard gates.
+        After this transformation, every possible input now has the same amplitude $1/\sqrt{N}$.
+        However, if we immediately measure all the qubits, the probability of observing $w$ is still only $1/N$.
+      </p>
+      <p>
+        Now, let's apply the phase oracle to this state to see what we get.
+        $$
+          O_f|s\rangle=-\frac{1}{\sqrt{N}}|w\rangle + \frac{1}{\sqrt{N}}\sum_{x\neq w}|x\rangle.
+        $$
+        The marked amplitude has become negative, but its magnitude has not changed. 
+        So, the probability of finding $w$ is still $1/N$.
+        So, how do we make this transformation useful?
+      </p>
+      <h3><strong>The First Reflection: Marking the Correct State</strong></h3>
+      <p>
+        The important distinction between quantum amplitudes and probabilities is that amplitudes can interfere with each other.
+        A negative amplitude may cancel with another amplitude or amplify another amplitude given an appropriate transformation.
+        Therefore, we need transformation that turns the work done by our phase oracle into a larger measurement probability.
+      </p>
+      <p>
+        Geometrically, we can view the phase oracle is a <strong>reflection</strong>.
+        It changes the sign of the component in the direction $|w\rangle$ while leaving all orthogonal components unchanged. 
+        This can be viwed as reflecting the state across the direction corresponding to the superposition of all unmarked inputs.
+      </p>
+      <h3><strong>The Second Reflection: Inversion About the Mean</strong></h3>
+      <p>
+        The second transformation is called the <strong>Grover diffusion operator</strong>, denoted by $D$.
+      </p>
+      <p>
+        Suppose the current state is $|\psi\rangle=\sum_x\alpha_x|x\rangle$, and let $\mu$ denote the mean of its amplitudes:
+        $$
+          \mu=\frac{1}{N}\sum_x\alpha_x.
+        $$
+        The diffusion operator is the linear transformation defined by
+        $$
+          D|\psi\rangle=\sum_x(2\mu-\alpha_x)|x\rangle.
+        $$
+        In other words, $D$ replaces every amplitude $\alpha_x$ with $2\mu-\alpha_x$. 
+        Each amplitude is reflected about the mean $\mu$. An amplitude below the mean moves above it by the same amount, and vice versa.
+        We will prove below that this operation is a unitary transformation and that it is a reflection across the direction $|s\rangle$.
+      </p>
+      <p>
+        Consider what happens when we apply $D$ directly after the phase oracle. 
+        The marked amplitude is $-1/\sqrt{N}$, while each of the $N-1$ unmarked amplitudes is $1/\sqrt{N}$. 
+        Their mean is
+        $$
+          \mu=\frac{N-2}{N\sqrt{N}}=\frac{1-2/N}{\sqrt{N}}.
+        $$
+        Therefore, after the diffusion operator, the marked amplitude becomes
+        $$
+          2\mu-\left(-\frac{1}{\sqrt{N}}\right)  =\frac{3-4/N}{\sqrt{N}}.
+        $$
+        Each unmarked amplitude becomes
+        $$
+          2\mu-\frac{1}{\sqrt{N}}
+          =\frac{1-4/N}{\sqrt{N}}.
+        $$
+        For large $N$, the marked amplitude has increased from approximately $1/\sqrt{N}$ to $3/\sqrt{N}$, while the other amplitudes have changed only slightly. 
+        We have used quantum interference to increase the amplitude of the marked input!
+      </p>
+      <h3><strong>If It Works, Don't Touch It!</strong></h3>
+      <p>
+        What happens if we apply the phase oracle and diffusion operator again? 
+        The oracle again reverses the marked amplitude, and the diffusion operator again reflects all amplitudes across their new mean. 
+        For the first few iterations, this continues to increase the amplitude of the marked state. 
+      </p>
+      <p>
+        However, this increase does not continue forever. 
+        To understand why, it helps to take a geometric perspective.
+        We can view entire computation as taking place inside a 2D plane. 
+        In this plane, the first operation reflects the state across the unmarked direction, 
+        while the second reflects it across the original uniform superposition $|s\rangle$.
+        The composition of two reflections is a <strong>rotation</strong>. 
+        Each pair of reflections rotates the state by a small, fixed angle toward the marked direction.
+      </p>
+
+      <figure style="max-width:660px; margin:24px auto; text-align:center;">
+        <img src="images/grover-iteration.png" alt="" style="width:100%; height:auto;">
+        <figcaption>
+          The first reflection sends the initial state below the unmarked axis. 
+          The second reflection reflects it across the uniform superposition, rotating the state toward the marked axis.
+        </figcaption>
+      </figure>
+
+      <p>
+        The initial state is already slightly tilted toward the marked direction. 
+        Every iteration rotates it by approximately $2\theta$ radians. 
+        After some number of iterations, the state is close to $|w\rangle$, so measuring returns $w$ with high probability.
+        If we continue to apply iterations beyond this point, we begin rotating past the marked direction and the probability of success decreases again.
+        Our analysis below will define this $\theta$ and make this rotation idea clearer.
+      </p>
+    </section>
+
+
+    <section>
+      <h2 id="algorithm"><strong>Grover's Algorithm</strong></h2>
+      <p>
+        We can now describe Grover's algorithm only the two transformations we have introduced. 
+        One application of the oracle followed by the diffusion operator is called a
+        <strong>Grover iteration</strong>. It is denoted by $G=DO_f$.
+      </p>
+      <div class="theorem">
+        <strong>Grover's Algorithm</strong>
+        <p>
+          Initialize $n$ qubits to $|0^n\rangle$.
+          <br>
+          Apply $H^{\otimes n}$ to obtain $|s\rangle=\frac{1}{\sqrt{N}}\sum_x|x\rangle$.
+          <br>
+          Apply $G=DO_f$ a total of $k$ times, where $k=\left\lfloor\frac{\pi}{4\arcsin(1/\sqrt{N})}\right\rfloor$.
+          <br>
+          Measure all $n$ qubits in the computational basis and output the observed bit string.
+        </p>
+      </div>
+    <section>
+      <h2 id="analysis"><strong>Rigorous Analysis</strong></h2>
+      <p>
+        We now prove that Grover's algorithm finds the marked input with high probability
+        after only $O(\sqrt{N})$ iterations.
+        We will use the geometric perspective introduced in the previous section. 
+      </p>
+
+      <h3><strong>Reducing the Problem to Two Dimensions</strong></h3>
+      <p>
+        Let $|w\rangle$ be the marked computational basis state. 
+        We also define $|r\rangle$ to be the equal superposition of all the unmarked states:
+        $$
+        |r\rangle=\frac{1}{\sqrt{N-1}}\sum_{x\neq w}|x\rangle.
+        $$
+
+        Both $|w\rangle$ and $|r\rangle$ have norm $1$, and they are
+        orthogonal, since they have no nonzero amplitudes at the same positions.
+        Hence, they span a two-dimensional plane.
+      </p>
+      <p>
+        Recall that the initial state is the uniform superposition of all inputs.
+        We can rewrite it using our two new vectors:
+        $$
+          |s\rangle=\frac{1}{\sqrt{N}}|w\rangle+\sqrt{\frac{N-1}{N}}|r\rangle.
+        $$
+        Now define an angle $\theta$ by
+        $$
+          \sin\theta=\frac{1}{\sqrt{N}},\quad
+          \cos\theta=\sqrt{\frac{N-1}{N}}.
+        $$
+        Thus,
+        $$
+          \boxed{|s\rangle=\sin\theta\,|w\rangle+\cos\theta\,|r\rangle.}
+        $$
+        If we draw $|r\rangle$ as the horizontal axis and $|w\rangle$ as the vertical axis, 
+        then $|s\rangle$ makes an angle of $\theta$ with the horizontal axis. 
+        Notice that $\theta=\arcsin(1/\sqrt N)$, which is approximately $1/\sqrt N$ when $N$ is large.
+      </p>
+
+      <h3><strong>Why Each Iteration Is a Rotation</strong></h3>
+      <p>
+        First, consider the phase oracle. It negates the marked state but leaves the uniform superposition of unmarked states unchanged:
+        $$
+          O_f|w\rangle=-|w\rangle,\quad O_f|r\rangle=|r\rangle.
+        $$
+        Therefore, the oracle reflects a vector across the $|r\rangle$-axis.
+      </p>
+      <p>
+        Next, take our definition of the diffusion operator. If $|\psi\rangle=\sum_x\alpha_x|x\rangle$ and $\mu=\frac1N\sum_x\alpha_x$, then
+         $$
+          D|\psi\rangle=\sum_x(2\mu-\alpha_x)|x\rangle.
+        $$
+        Since $|s\rangle=\frac1{\sqrt N}\sum_x|x\rangle$, we can also write
+        $$
+          D|\psi\rangle=2\sqrt N\,\mu\,|s\rangle-|\psi\rangle.
+        $$
+
+        To understand where is comes from, take $|\psi\rangle=c|s\rangle+|v\rangle$, where
+        $c=\sqrt N\,\mu$ and $|v\rangle$ is orthogonal to $|s\rangle$.
+        This is possible because subtracting $c|s\rangle$ leaves a state whose amplitudes sum to zero. 
+        Substituting gives
+        $$
+          D|\psi\rangle=2c|s\rangle-(c|s\rangle+|v\rangle)=c|s\rangle-|v\rangle.
+        $$
+        Hence, the diffusion operator leaves the component along $|s\rangle$ untouched and negates the orthogonal part. 
+        In other words, it reflects vectors across the $|s\rangle$-axis. 
+      </p>
+      <p>
+        Both reflections keep the plane spanned by $|w\rangle$ and $|r\rangle$ unchanged. 
+        Suppose our current state makes an angle $\varphi$ with the $|r\rangle$-axis, measured toward $|w\rangle$.
+        The oracle reflects this angle from $\varphi$ to $-\varphi$.
+        The diffusion operator then reflects it across the direction $|s\rangle$,
+        which is at angle $\theta$, changing the angle to
+        $$
+          2\theta-(-\varphi)=\varphi+2\theta.
+        $$
+        Thus, <strong>one complete Grover iteration rotates the state by exactly $2\theta$ toward the marked direction</strong>.
+      </p>
+
    
   </main>
 
