@@ -9,8 +9,8 @@
     MathJax = {
       loader: {load: ['[tex]/textmacros']},
       tex: {
-        inlineMath: [['\\(', '\\)'], ['$', '$']],
-        displayMath: [['\\[', '\\]'], ['$$', '$$']],
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
         packages: {'[+]': ['textmacros']}
       }
     };
@@ -24,7 +24,7 @@
       <span></span>
       <span></span>
     </button>
-    <span class="topbar-title">Quantum Computing</span>
+    <span class="topbar-title"><strong>Quantum Computing</strong></span>
   </header>
 
   <aside class="sidebar">
@@ -34,16 +34,138 @@
       <a href="circuits.html">Quantum Circuits</a>
       <a href="complexity.html">Complexity Classes &amp; SCT</a>
       <a href="grover.html" class="active">Grover's Algorithm</a>
+      <div class="subnav">
+        <a href="#search-problem">The Search Problem</a>
+        <a href="#quantum-oracle">Constructing the Quantum Oracle</a>
+        <a href="#intuition">High-Level Intuition</a>
+        <a href="#algorithm">The Algorithm</a>
+        <a href="#analysis">Rigorous Analysis</a>
+        <a href="#classical-comparison">Classical Comparison</a>
+      </div>
     </nav>
   </aside>
 
   <main class="main">
-    <h1>Grover's Algorithm</h1>
+    <h1><strong>Grover's Algorithm</strong></h1>
+
     <section>
-      This page will cover Grover's Algorithm, which is a quantum algorithm for searching an unsorted database.
-      We will provide some background/motivation for the algorithm, the formula description of the algorithm, and a rigorous analysis of the algorithm.
-      <p></p>
+      <p>
+        On the previous page, we discussed how quantum computation challenges the Strong Church-Turing Thesis.
+        We will now study one important example of a quantum algorithm that can outperform classical algorithms:
+        <strong>Grover's algorithm</strong>. Grover's algorithm solves an unstructured search problem using
+        fewer queries than are needed in a classcal algorithm. 
+        We will first formulate the problem, develop some intuition for the algorithm, 
+        and finally prove a rigorous bound on the number of queries it makes.
+      </p>
     </section>
+
+    <section>
+      <h2 id="search-problem"><strong>The Search Problem</strong></h2>
+      <p>
+        Suppose we have a collection of $N$ possible objects, and we want to find one satisfying a certain
+        property. For example, imagine searching through an unsorted database for an entry satisfying some
+        condition. Without any information about how the entries are organized, a classical algorithm may
+        have to examine a linear number of objects to find the one we want.
+      </p>
+      <p>
+        Let's represent this problem rigorously. 
+        For simplicity, let $N=2^n$, so that each objects corresponds to a bit string $x\in\{0,1\}^n$. 
+        Suppose we are given a Boolean function $$f:\{0,1\}^n\to\{0,1\}$$,
+        where $f(x)=1$ means that $x$ is an item we are searching for.
+        We will assume there is exactly one such input, denoted by $w$:
+        $$ f(w)=1,\qquad f(x)=0\quad\text{for every }x\neq w.$$
+
+        Our goal is to find this <strong>marked input</strong> $w$.
+      </p>
+      <p>
+        We will treat $w$ as an <strong>oracle</strong>. Our main measure of complexity will be the number of oracle queries. 
+        This is important: an oracle query need not take constant time when we actually construct a circuit for $f$.
+        We are only interested in how many times an algorithm needs to use the oracle.
+      </p>
+      <p>
+        We will show that Grover's algorithm finds $w$ with high probability using only
+        $O(\sqrt{N})$ quantum oracle queries, while classical randomized algorithms require $\Omega(N)$ queries in the worst case.
+      </p>
+    </section>
+
+    <section>
+      <h2 id="quantum-oracle"><strong>Constructing the Quantum Oracle</strong></h2>
+      <h3><strong>Why Do We Need a Reversible Oracle?</strong></h3>
+      <p>
+        Our first task is to represent the function $f$ using a quantum circuit.
+        The obvious idea would be to create a gate that maps $|x\rangle$ to $|f(x)\rangle$.
+        However, this generally cannot be a quantum gate because it is not reversible.
+        Many different inputs can have the same value of $f(x), so knowing $f(x)$ does not determine $x$.
+        Furthermore, such a map would take $n$input qubits to just one output qubit.
+      </p>
+      <p>
+        In our discussion of classical reversible gates, we saw we could construct a reversible circuit by computing a Boolean function into an extra bit. 
+        We use exactly the same construction here.
+        Define the <strong>reversible oracle</strong> $U_f$ by its action on computational basis states:
+        $$
+          U_f|x\rangle|b\rangle =|x\rangle|b\oplus f(x)\rangle, \quad b\in\{0,1\}.
+        $$
+        The first register is unchanged. The second qubit is flipped only when $$f(x)=1$$.
+        Again, this is reversible because applying the transformation twice returns the original state:
+        $$
+          U_f^2|x\rangle|b\rangle=|x\rangle|b\oplus f(x)\oplus f(x)\rangle = |x\rangle|b\rangle.
+        $$
+      </p>
+      <h3><strong>From a Reversible Oracle to a Phase Oracle</strong></h3>
+      <p>
+        It turns out that Grover's algorithm is more convenient to describe using a different type
+        of oracle. Rather than writing $$f(x)$$ into an extra qubit, we want to change the
+        <em>sign of the amplitude</em> associated with the marked input. Define the
+        <strong>phase oracle</strong> $$O_f$$ by
+        $$
+          O_f|x\rangle=(-1)^{f(x)}|x\rangle=\begin{cases}
+             -|x\rangle,&amp;\text{if }x=w,\\
+             |x\rangle,&amp;\text{if }x\neq w.
+           \end{cases}
+        $$
+        Notice the amplitude of $w\rangle\$ has been multiplied by $-1\$,
+        introducing a rotation or phase of $\pi$ between the marked and unmarked states.
+      </p>
+      <p>
+        How can we construct this phase oracle using $U_f$? The key is to initialize the additional
+        qubit to the state
+        $$
+          |-\rangle=\frac{|0\rangle-|1\rangle}{\sqrt{2}}.
+        $$
+        Since we choose our elementary gate set to be $H$, $T$, and $\mathrm{CNOT}$, it is natural to ask whether we
+        can compute this state efficiently.
+        It turns out we can, by applying the $H$ gate to the ancilla qubit and then applying the $T$ gate four times.
+        We will not show the computation here, but it is easy to verify this.
+      </p>
+      <p>
+        Now consider using $|x\rangle|-\rangle$ as input to the reversible oracle. By linearity,
+        $$
+          U_f(|x\rangle|-\rangle) =\frac{1}{\sqrt{2}}(|x\rangle|f(x)\rangle-|x\rangle|1\oplus f(x)\rangle).
+        $$
+        If \(f(x)=0\), this is just \(|x\rangle|-\rangle\). If $f(x)=1$, the two terms swap, giving
+        $$
+          \frac{|x\rangle|1\rangle-|x\rangle|0\rangle}{\sqrt{2}}=-|x\rangle|-\rangle.
+        $$
+        Combining the two cases, we have shown that
+        $$
+          \boxed{U_f(|x\rangle|-\rangle)=(-1)^{f(x)}|x\rangle|-\rangle.}
+        $$
+        Notice that the extra qubit ends in exactly the same state in which it began. 
+        The only effect is the desired phase change. 
+        This is called <strong>phase kickback</strong>. 
+        Because quantum gates act linearly, the same identity holds for every superposition of input states:
+        $$
+          U_f\left(\sum_x\alpha_x|x\rangle\otimes|-\rangle\right) =\left(\sum_x(-1)^{f(x)}\alpha_x|x\rangle\right)\otimes|-\rangle.
+        $$
+      </p>
+      <p>
+        In the oracle model, we assume access to $U_f$ (or the phase oracle $O_f$) as a black box. 
+        Each application of the oracle is counted as a single query.
+        We then analyze the number of oracle queries needed to solve the problem.
+      </p>
+    </section>
+
+   
   </main>
 
   <script src="script.js"></script>
