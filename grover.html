@@ -73,7 +73,7 @@
         Suppose we are given a Boolean function $$f:\{0,1\}^n\to\{0,1\}$$,
         where $f(x)=1$ means that $x$ is an item we are searching for.
         We will assume there is exactly one such input, denoted by $w$:
-        $$ f(w)=1,\qquad f(x)=0\quad\text{for every }x\neq w.$$
+        $$ f(w)=1,\quad f(x)=0\quad\text{for every }x\neq w.$$
 
         Our goal is to find this <strong>marked input</strong> $w$.
       </p>
@@ -325,7 +325,7 @@
         $$
         If we draw $|r\rangle$ as the horizontal axis and $|w\rangle$ as the vertical axis, 
         then $|s\rangle$ makes an angle of $\theta$ with the horizontal axis. 
-        Notice that $\theta=\arcsin(1/\sqrt N)$, which is approximately $1/\sqrt N$ when $N$ is large.
+        Notice that $\theta=\arcsin(\frac{1}{\sqrt N})$, which is approximately $\frac{1}{\sqrt N}$ when $N$ is large.
       </p>
 
       <h3><strong>Why Each Iteration Is a Rotation</strong></h3>
@@ -365,10 +365,80 @@
         $$
           2\theta-(-\varphi)=\varphi+2\theta.
         $$
-        Thus, <strong>one complete Grover iteration rotates the state by exactly $2\theta$ toward the marked direction</strong>.
+        Hence, one complete Grover iteration rotates the state by exactly $2\theta$ toward the marked direction<.
       </p>
 
-   
+      <h3><strong>The Probability of Success</strong></h3>
+      <p>
+        Our initial state makes an angle of $\theta$ with the $|r\rangle$ direction. 
+        Since each Grover iteration increases this angle by exactly $2\theta$, after $k$ iterations the angle is
+        $$
+          \theta+2k\theta=(2k+1)\theta.
+        $$
+        Therefore, the state after $k$ iterations is
+        $$
+          G^k|s\rangle =\sin((2k+1)\theta)|w\rangle+\cos((2k+1)\theta)|r\rangle.
+        $$
+        By the Born rule, measuring this state returns $w$ with probability
+        $$
+          \Pr[\text{measure }w]=\sin^2((2k+1)\theta).
+        $$
+      </p>
+      <p>
+        We want this probability to be close to $1$, so we should stop when
+        the angle $(2k+1)\theta$ is close to $\frac{\pi}{2}$. This suggests
+        $$
+          (2k+1)\theta\approx\frac{\pi}{2} \quad \Longrightarrow \quad k\approx\frac{\pi}{4\theta}.
+        $$
+
+        Since we must choose an integer number of iterations, take
+        $$
+          k=\left\lfloor\frac{\pi}{4\theta}\right\rfloor \approx\frac{\pi}{4}\sqrt N.
+        $$
+        In fact, this choice guarantees that the final angle differs from $\frac{\pi}{2}$ by at most $\theta$. 
+        To see this, we first know that 
+        $$
+          k\leq\frac{\pi}{4\theta}<k+1.
+        $$
+
+        Multiplying by $2\theta$ and rearranging, we find
+        $$
+          -\theta<(2k+1)\theta-\frac{\pi}{2}\leq\theta.
+        $$
+        Therefore, the probability of success is at least
+        $$
+          \Pr[\text{measure }w]\geq\cos^2\theta=1-\frac1N.
+        $$
+        Notably, this is at least $\frac{3}{4}$ for $N\geq4$!
+      </p>
+      <p>
+        Finally, $\theta=\arcsin(\frac{1}{\sqrt N})=\Theta(\frac{1}{\sqrt N})$, so
+        $$
+          k=\Theta(\sqrt N).
+        $$
+        Each iteration makes one phase-oracle query. 
+        Therefore, Grover's algorithm needs $\Theta(\sqrt N)$ oracle queries.
+        Notice that this is a statement about query complexity. 
+        The total number of elementary gates also depends on how the oracle is implemented.
+        If one oracle call costs $S_f(n)$ gates, the full circuit uses at most $O(\sqrt{N}(S_f(n)+\operatorname{poly}(n)))$ elementarygates.
+        This $\operatorname{poly}(n)$ term accounts for the additional gates needed to implement the phase oracle and diffusion operator.
+      </p>
+      <p>
+        We assumed there was exactly one marked input. When there are $M$ marked inputs and $M$ is known, 
+        the same geometric idea applies with $\sin\theta=\sqrt{\frac{M}{N}}$, giving $O(\sqrt{\frac{N}{M}})$ queries.
+      </p>
+    </section>
+
+    <section>
+      <h2 id="classical-comparison"><strong>Comparison with Classical Computation</strong></h2>
+      <p>
+        In an unstructured search problem with a unique marked input, 
+        a classical algorithm requires $\Theta(N)$ oracle queries in the worst case, even if it is randomized and allowed a constant probability of error.
+        Grover's algorithm reduces this to $\Theta(\sqrt{N})$ quantum queries, giving a <strong>quadratic speedup</strong>. 
+        However, a quadratic speedup does not imply that $\mathsf{BPP}\neq\mathsf{BQP}$, or that every problem has a quantum speedup. 
+        It is however a nice example of how quantum computation can provide a provable advantage over classical computation.
+      </p>
+    </section>
   </main>
 
   <script src="script.js"></script>
